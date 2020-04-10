@@ -28,3 +28,46 @@ An example is given below:
 10 / 5
 [1] 2
 ```
+
+# Descriptive statistics 
+
+Before starting any statistical anaylysis of your data, it's important to perform an exploratory analysis first. Usually there are simple functions in R which can help you with that. Let's start with some basics part of descriptive statistics in R. 
+
+First of all, we are going to discuss descriptive statistics for a single group, which can be simply presented as vector.
+
+Generation of dataframe with one column = variable (var):
+
+```{r}
+set.seed(123)
+var <- data.frame(var = c(rnorm(40, mean=0.35, sd=1.05), rnorm(120, mean=0.8, sd=2)))
+```
+
+We can plot the distribution of this variable.
+A <b> distribution </b> in statistics is a function that shows the possible values for a variable and how often they occur. E.g. you can plot it as histogram using ggplot:
+
+```{r}
+ggplot(data=var, aes(var)) + 
+  geom_histogram(binwidth = 0.8,
+                 col = 'green',
+                 fill="green", 
+                 alpha=.5) +
+        labs(title="Histogram for Var", x="Length", y="Count") + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+panel.background = element_blank(), axis.line = element_line(colour = "black"))
+```
+
+![alt text](https://github.com/triasteran/Data-Science-For-Life-Science/blob/master/Statistics_and_Math_in_R/pictures/dist_hist.png "Distribution of variable Var in form of Histogram")
+
+Also you can use density plot to demonstate data distribution. In a density plot, we attempt to visualize the underlying probability distribution of the data by drawing an appropriate continuous curve which is estimated from the data (usually by kernel density estimation, which will not be covered in this document).
+
+```{r}
+ggplot(data=var, aes(var)) + 
+  geom_density(col = 'green',
+                 fill="green", 
+                 alpha=.5) +
+        labs(title="Density plot for Var", x="Length", y="Count") + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+panel.background = element_blank(), axis.line = element_line(colour = "black"))
+```
+
+
+
+
