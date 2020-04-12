@@ -36,19 +36,18 @@ A <b> distribution </b> in statistics is a function that shows the possible valu
 
 ```{r}
 ggplot(data=var, aes(var)) + 
-    geom_histogram(binwidth = 0.8,
-                   col = 'green',
-                   fill="green", 
-                   alpha=.5) +
-          labs(title="Histogram for Var", x="Length", y="Count") + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
-  panel.background = element_blank(), axis.line = element_line(colour = "black"))
-
-[1]
+       geom_histogram(binwidth = 0.8,
+                      col = 'green',
+                      fill="green", 
+                      alpha=.5) +
+          labs(title="Histogram for Var", x="Length", y="Count") + 
+	  theme(panel.grid.major = element_blank(), 
+	  panel.grid.minor = element_blank(),
+	  panel.background = element_blank(), 
+	  axis.line = element_line(colour = "black"))
 ```
 
-```
 ![alt text](https://github.com/triasteran/Data-Science-For-Life-Science/blob/master/Statistics_and_Math_in_R/pictures/dist_hist.png "Distribution of variable Var in form of Histogram")
-```
 
 Also you can use density plot to demonstrate data distribution. In a density plot, we attempt to visualize the underlying probability distribution of the data by drawing an appropriate continuous curve which is estimated from the data (usually by kernel density estimation, which will not be covered in this document).
 
@@ -57,8 +56,11 @@ ggplot(data=var, aes(var)) +
   geom_density(col = 'green',
                  fill="green", 
                  alpha=.5) +
-        labs(title="Density plot for Var", x="Length", y="Count") + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
-panel.background = element_blank(), axis.line = element_line(colour = "black"))
+        labs(title="Density plot for Var", x="Length", y="Count") + 
+	theme(panel.grid.major = element_blank(), 
+	panel.grid.minor = element_blank(),
+	panel.background = element_blank(), 
+	axis.line = element_line(colour = "black"))
 ```
 
 ![alt text](https://github.com/triasteran/Data-Science-For-Life-Science/blob/master/Statistics_and_Math_in_R/pictures/dist_density.png "Distribution of variable Var in form of Density")
