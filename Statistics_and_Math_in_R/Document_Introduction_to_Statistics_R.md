@@ -9,28 +9,6 @@ A quick note on the layout of this document:
   * You cannot execute code in a markdown document, 
   * We encourage you to copy and paste code into R Studio and play around with it. You will learn  faster by getting your hands dirty!
 
-# Calculations
-
-Let’s start with the basic syntax for mathematical calculations in R. R performs addition, subtraction, multiplication, division, exponentiation and modulo with `*` `-` `+` `/` `^` `%%`.
-
-An example is given below:
-
-```{R}
-# Results in "500"
-573 - 74 + 1
-[1] 500
-
-# Results in "50"
-25 * 2
-[1] 50
-
-# Results in "2"
-10 / 5
-[1] 2
-```
-
-![alt text](https://github.com/triasteran/Data-Science-For-Life-Science/blob/master/Statistics_and_Math_in_R/pictures/quantiles2.png "Quartiles for continuous distribution")![alt text](https://github.com/triasteran/Data-Science-For-Life-Science/blob/master/Statistics_and_Math_in_R/pictures/quartiles.png "Quartiles for discrete distribution")![alt text](https://github.com/triasteran/Data-Science-For-Life-Science/blob/master/Statistics_and_Math_in_R/pictures/quartiles.png "Quartiles for discrete distribution")mean, mode, variance, SD, quartiles, hypothesis testing, regression
-
 ## Libraries
 
 ```{r}
@@ -41,7 +19,7 @@ require(psych)
 require(Rmisc)
 ```
 
-  ## Descriptive statistics 
+## Descriptive statistics 
 
 Before starting any statistical analysis of your data, it's important to perform an exploratory analysis first. Usually there are simple functions in R which can help you with that. Let's start with some basics part of descriptive statistics in R. 
 
