@@ -1,4 +1,4 @@
-# Week 5: Introduction to Statistics in R Worksheet.
+Week 5: Introduction to Statistics in R Worksheet.
 
 A quick note on the layout of this document:
 
@@ -16,7 +16,7 @@ First, you need to install and include libraries.
 
 ```{r}
 #to install library:
-#install.packages('ggplot2')
+install.packages('ggplot2')
 
 #to include library:
 library(ggplot2) # visualisation 
@@ -24,13 +24,16 @@ library(dplyr) # data frame manupulation
 library(tidyr) # data frame manupulation 
 library(psych) # descriptive statistics for data frame 
 library(Rmisc) # confidence interval
+
+# if you want to suppress package sturtup messages:
+suppressPackageStartupMessages(library(ggplot2))
 ```
 
 ## Descriptive statistics 
 
-Before starting any statistical analysis of your data, it's important to perform an exploratory analysis first. Usually there are simple functions in R which can help you with that. Let's start with some basics part of descriptive statistics in R. 
+​	Before starting any statistical analysis of your data, it's important to perform an exploratory analysis first. There are simple functions in R which can help you with that. Let's start with some basics part of descriptive statistics in R. 
 
-First of all, we are going to discuss descriptive statistics for a single group, which can be simply presented as vector.
+​	First of all, we are going to discuss descriptive statistics for a single group, which can be simply presented as vector:
 
 ```{r}
 # generation of data frame with one column = variable (var):
@@ -38,10 +41,13 @@ set.seed(123)
 var <- data.frame(var = c(rnorm(40, mean=0.35, sd=1.05), rnorm(120, mean=0.8, sd=2)))
 ```
 
-We can plot the distribution of this variable.
-A <b> distribution </b> in statistics is a function that shows the possible values for a variable and how often they occur. E.g. you can plot it as histogram using ggplot:
+​	We can plot the distribution of this variable.
+
+​	A  distribution in statistics is a function that shows the possible values for a variable and how often they occur. E.g. you can plot it as <b>histogram </b>  using <i>ggplot</i>:
 
 ```{r}
+# basic syntax for histogram: ggplot(data = your_data_frame, aes(x = variable)) + geom_histogram()
+# other options are needed to adjust plot characheristics 
 ggplot(data=var, aes(var)) + 
        geom_histogram(binwidth = 0.8,
                       col = 'green',
@@ -56,9 +62,10 @@ ggplot(data=var, aes(var)) +
 
 <img src="https://github.com/triasteran/Data-Science-For-Life-Science/blob/master/Statistics_and_Math_in_R/pictures/dist_hist.png" alt="drawing" width="300"/>
 
-Also you can use density plot to demonstrate data distribution. In a density plot, we attempt to visualize the underlying probability distribution of the data by drawing an appropriate continuous curve which is estimated from the data (usually by kernel density estimation, which will not be covered in this document).
+​	Also you can use <b>density plot</b> to demonstrate data distribution.  This chart is a variation of a histogram that uses kernel smoothing to plot values, allowing for smoother distributions by smoothing out the noise:
 
 ```{r}
+# basic synax for density plot: ggplot(data=your_data_frame, aes(x = variable)) + geom_density()
 ggplot(data=var, aes(var)) + 
   geom_density(col = 'green',
                  fill="green", 
@@ -70,11 +77,11 @@ ggplot(data=var, aes(var)) +
 	axis.line = element_line(colour = "black"))
 ```
 
-![alt text](https://github.com/triasteran/Data-Science-For-Life-Science/blob/master/Statistics_and_Math_in_R/pictures/dist_density.png "Distribution of variable Var in form of Density")
+<img src="https://github.com/triasteran/Data-Science-For-Life-Science/blob/master/Statistics_and_Math_in_R/pictures/dist_density.png" alt="drawing" width="300"/>
 
 ### Central tendency 
 
-How would you describe a vector? What first comes to your mind? Most likely, you want to calculate some measure that reflects the 'middle' or the 'average' value of your data. Generally speaking, it's called measures of central tendency. 
+​	How would you describe a vector? What first comes to your mind? Most likely, you want to calculate some measure that reflects the 'middle' or the 'average' value of your data. Generally speaking, it's called measures of central tendency. 
 
 The most popular measures are:
 
@@ -129,6 +136,7 @@ apply(var, 2, mode)
 All this measures are shown on the plot below, red - mean, blue - median and black is mode. 
 
 ```{r}
+# using geom_vline you can add vertical lines to the plot:
 ggplot(data=var, aes(var)) + 
   geom_histogram(breaks=seq(-3, 3, by=0.25),
                  col = 'green',
@@ -143,11 +151,11 @@ panel.background = element_blank(), axis.line = element_line(colour = "black")) 
 [1] 
 ```
 
-![alt text](https://github.com/triasteran/Data-Science-For-Life-Science/blob/master/Statistics_and_Math_in_R/pictures/central_tendency.png "Measures of central tendency")
+<img src="https://github.com/triasteran/Data-Science-For-Life-Science/blob/master/Statistics_and_Math_in_R/pictures/central_tendency.png" alt="drawing" width="300"/>
 
 ### Variability 
 
-Besides, you might also want to know how your data is spread out, what are the highest and lowest values. However, taking just minimum and maximum value (which is called range) is not the only way to describe variability of your data. 
+​	Besides, you might also want to know how your data is spread out, what are the highest and lowest values. However, taking just minimum and maximum value (which is called range) is not the only way to describe variability of your data. 
 
 * range (min and max of the data)
 
@@ -164,7 +172,7 @@ var(var$var)
 [1] 2.925926
 ```
 
-* standard deviation 
+* standard deviation (square root of variance)
 
 ```{r}
 sd(var$var)
@@ -199,10 +207,9 @@ You definitely need to remember some basic distributions.
 
 ### Quartiles, quantiles, percentiles 
 
-Quartiles are 3 points dividing a dataset into four equal groups, each consisting of 25% of the data. There are lower quartile (Q1), middle quartile (median, Q2) and upper quartile (Q3). 
+​	As you might remember, quartiles are 3 points dividing a dataset into four equal groups, each consisting of 25% of the data. There are lower quartile (Q1), middle quartile (median, Q2) and upper quartile (Q3). 
 
-Surely, you can choose any number of groups to split your data. 
-E.g. percentile, which divides a dataset into 100 equal groups. 
+​	Surely, you can choose any number of groups to split your data.  E.g. percentile, which divides a dataset into 100 equal groups. 
 
 * The 5th percentile is the boundary between the smallest 5% of the data and the largest 95% of the data. 
 * The median of a dataset is the 50th percentile of the dataset. 
@@ -211,7 +218,7 @@ E.g. percentile, which divides a dataset into 100 equal groups.
 Let's look at the example:
 
 ```{r}
-#let's generate 22 observations with replacement from values 1:10
+# let's generate observations with replacement 
 set.seed(789)
 y <- sample(1:10, 22, replace = TRUE)
 x <- data.frame(y = y)
@@ -220,19 +227,21 @@ x <- data.frame(y = y)
 In R you can simply use in-built function:
 
 ```{r}
-#it gives you 0th, 25th, 50th, 75th and 100th percentiles
+# it gives you 0th, 25th, 50th, 75th and 100th percentiles
 quantile(y)
 [1] 0%   25%   50%   75%  100% 
  	1.00  3.00  5.00  7.75 10.00 
 
-#you can also choose which quantile you want
+# you can also choose which quantile you want
 quantile(y, probs = c(0.05, 0.3, 0.7, 0.96))
 [1] 5%  30%  70%  96% 
  	2.0  3.3  6.7 10.0 
 ```
 
 ```{r}
-#plot it. Red - lower quartile, blue - middle quartile, purple - upper one.
+# this is another type of plot - dotplot
+# it's histogram, but instead of bars - points representing counts of value
+# red - lower quartile, blue - middle quartile, purple - upper one
 ggplot(x, aes(y)) + 
   geom_dotplot(binwidth=1, method='histodot') + 
   scale_y_continuous(name = "", breaks = NULL) +
@@ -249,9 +258,9 @@ ggplot(x, aes(y)) +
 [1]
 ```
 
-![alt text](https://github.com/triasteran/Data-Science-For-Life-Science/blob/master/Statistics_and_Math_in_R/pictures/quartiles.png "Quartiles for discrete distribution")
+<img src="https://github.com/triasteran/Data-Science-For-Life-Science/blob/master/Statistics_and_Math_in_R/pictures/quartiles.png" alt="drawing" width="300"/>
 
-Let's look at the another example with continuous distribution.
+​	Let's look at the another example with continuous distribution.
 On a plot you can see that Q1,  Q2 and Q3 divide data into 4 intervals with equal probabilities (25% each):
 
 ```{r}
@@ -259,16 +268,18 @@ On a plot you can see that Q1,  Q2 and Q3 divide data into 4 intervals with equa
 set.seed(100)
 v <- data.frame(v = rnorm(10000, 0, 1))
 
-#calculate quantiles
+#calculate quartiles
 Q1 <- quantile(v$v, probs = 0.25)
 Q3 <- quantile(v$v, probs = 0.75)
 Q2 <- quantile(v$v, probs = 0.5)
 
-
+# create basic density plot
 p <- ggplot(v, aes(v)) +
           geom_density(fill="white")
 
-# subset region and plot
+# add to the previous plot colored areas using geom_area()
+# add text to the plot using geom_text()
+# don't you find ggplot syntax intuitive? :) 
 d <- ggplot_build(p)$data[[1]]
 p + geom_area(data = subset(d, x > Q2), aes(x=x, y=y), fill="blue", alpha=0.1) +
   geom_area(data = subset(d, x < Q2), aes(x=x, y=y), fill="blue", alpha=0.1) +
@@ -290,18 +301,17 @@ geom_text(x=-1.1, y=0.1, label="25%") +
 [1] 
 ```
 
-![alt text](https://github.com/triasteran/Data-Science-For-Life-Science/blob/master/Statistics_and_Math_in_R/pictures/quantiles2.png "Quartiles for continuous distribution")
+<img src="https://github.com/triasteran/Data-Science-For-Life-Science/blob/master/Statistics_and_Math_in_R/pictures/quantiles2.png" alt="drawing" width="300"/>
 
-Quartiles are used in the very popular and informative representation of data distribution - <b>boxplot</b>. Lower boundary of the box is Q1, middle (red) is median or Q2, upper boundary is Q3. 
+​	Quartiles are used in very popular and informative representation of data distribution - <b>boxplot</b>. Lower boundary of the box is Q1 (lower quartile), middle (red) is median or Q2, upper boundary is Q3 (upper quartile). 
 
-Q3 - Q1 is an <b>interquartile range</b> which is another popular measure of variablility as well as variance and standard deviation. The higher height of the box (IQR = Q3 - Q1), the higher variability of the data. 
+​	Q3 - Q1 is an <b>interquartile range</b> which is another popular measure of data variability as well as variance and standard deviation. The greater height of the box (IQR = Q3 - Q1), the higher variability of the data. 
 
-Upper dashed line ends up at Q3 + 1.5 * IQR and lower dashed line ends up at Q1 - 1.5 * IQR. All values above and below these boundaries are considered to be outliers - extremely high and low values. 
-
-
+​	Upper dashed line ends up at Q3 + 1.5 * IQR and lower dashed line ends up at Q1 - 1.5 * IQR. All values above and below these boundaries are considered to be outliers - extremely high and low values. 
 
 ```{r}
-#let's create boxplot using base R 
+# let's create boxplot using base R 
+# using text(x=x, y=y, labels='labels') you can add text on plot 
 boxplot(v, medcol="red") 
 text(x=1.25, y=Q1, labels='Q1')
 text(x=1.3, y=Q2, labels='median')
@@ -312,10 +322,9 @@ text(x=1.25, y=Q3+1.5*(Q3-Q1), labels='Q3+1.5*IQR')
 [1]
 ```
 
-![alt text](https://github.com/triasteran/Data-Science-For-Life-Science/blob/master/Statistics_and_Math_in_R/pictures/boxplot.png  "Boxplot")
+<img src="https://github.com/triasteran/Data-Science-For-Life-Science/blob/master/Statistics_and_Math_in_R/pictures/boxplot.png" alt="drawing" width="300"/>
 
 ```{r}
-
 #show boxplot points in density plot
 IQR <- Q3 - Q1
 low_boundary <- Q1 - 1.5*IQR 
@@ -350,21 +359,25 @@ p + geom_area(data = subset(d, x > Q2), aes(x=x, y=y), fill="blue", alpha=0.1) +
 [1]
 ```
 
-![alt text](https://github.com/triasteran/Data-Science-For-Life-Science/blob/master/Statistics_and_Math_in_R/pictures/bozplot_expl.png  "Boxplot")
+<img src="https://github.com/triasteran/Data-Science-For-Life-Science/blob/master/Statistics_and_Math_in_R/pictures/bozplot_expl.png" alt="drawing" width="300"/>
 
 ### Descriptive statistics for data frame
 
-You can calculate basic different statistics for data frame, using function describe from package psych.  
-Pay attention to categorical variables (they are denoted as * in output data frame), they can't have mean or median (it's for numeric variables only). So best practice is to delete them from data frame before applying function describe. 
+​	In previous paragraphs we have known how to describe the distribution of one variable: measures of central tendency (mean, median, mode), measures of variability (range, interquartile range, variance, standard deviation) and quantiles (quartiles, percentiles).  We also are aware of some basic visualization methods such as histogram, density plot and boxplot. Let's move to the description of multiple variables combined into data frame.
+
+​	You can calculate basic different statistics for data frame, using function <i>describe</i> from package <i>psych</i>. 
+Pay attention to categorical variables (they are denoted as * in output data frame), they can't have mean or median (it's for numeric variables only). So the best practice is to delete them from data frame before applying function describe: 
 
 ```{r}
-#generate some random dataframe
+# generate some random dataframe
 df <- data.frame(var1 = rbeta(100, 3, 5), 
                  var2 = rpois(100, 4), 
                  var3 = rbinom(100, 20, 0.5),
                  group_var1 = as.factor(sample(c(0,1), replace=TRUE, size=100)),
                  group_var2 = as.factor(sample(seq(1, 5, 1), replace=TRUE, size=100)))
 
+# here we apply function describe, removing categorical variables such as group_var1 and group_var2 
+# as you can see, this function allows you to obtain different statistical measures for multiple variables 
 describe(df[,-c(4, 5)])
 
 [1] 
@@ -378,6 +391,7 @@ var3	3	100	9.82	2.44	10.00	9.90	1.48	4.00	16.00
 Besides, descriptive statistics can be obtained for groups:
 
 ```{r}
+# here we group data by group_var1 (it has values 1 and 0 which is reflected in columns group1)
 describeBy(x = df[,-c(4, 5)], group = df$group_var1, mat=T, digits = 2)[0:5]
 
 # output is too big, only part is shown
@@ -398,46 +412,5 @@ var12	2	   1	  1	   1	15	0.40	0.17	0.36	0.38
 var13	3	   0	  2	   1	9	0.32	0.16	0.33	0.32
 ```
 
-# Central Limit Theorem (CLT)
-
-<b>The central limit theorem</b> states that if you have a population with mean μ and standard deviation σ and take sufficiently large random samples from the population with replacement, then the distribution of the sample means will be approximately normally distributed with mean = μ and standard mean error (se) = σ/sqrt(n). The higher n, the lower variability of the sample means (distribution of sample means is narrower). 
-
-Random sample should be sufficiently large if population is not normally distributed (n>=30).
-
-Visualization of this theorem you can find here: https://istats.shinyapps.io/sampdist_cont/, https://istats.shinyapps.io/SampDist_discrete/
-
-# Confidence interval for mean 
-
-Let's dive into statistics applications. 
-
-If we want to estimate a parameter, ideally we would compute its value from the whole population. However, in real world we have to deal only with samples from population. What's even worse, we usually have only one sample. 
-
-Confidence intervals can help us. They are mainly used to find a population parameter from the sample data. 
-
-They can be explained in a simple way. e.g. we calculate the 95% confidence interval for a population mean.  As we know from CLT, sample means are distributed normally with mean value equal to the population mean (μ).  So we can use it to determine confidence interval. 95% of all sample means are located in the interval (μ - 1.96*se, μ + 1.96*se) which is the 95%-confidence interval for the population mean (μ). 
-
-The name of the interval sounds always misleading. 
-Basically, it means that 95% of all confidence intervals for sample means (infinite number of samples should be drawn!) would include the mean of population. 
-To better understand it visually, you can use this link: 
-https://istats.shinyapps.io/ExploreCoverage/
-
-
-```{r}
-#let's generate random sample from normal population
-set.seed(123)
-sample <- rnorm(n=50, mean=0, sd=1)
-
-#do it using base functions ?????????
-#c(mean(sample) - qnorm(0.975)*sd/sqrt(n), mean(sample) + qnorm(0.975)*sd #/sqrt(n))
-
-#Find 95% confidence interval
-CI(sample, ci = 0.95)
-[1] upper        mean       lower 
- 0.29753289  0.03440355 -0.22872579 
-
-#Find 99% confidence interval. Important to note, this interval is wider and gives us less narrow estimate. 
-CI(sample, ci = 0.99)
-[1] upper        mean       lower 
- 0.38531053  0.03440355 -0.31650344 
-```
+----------------------------------------------
 
