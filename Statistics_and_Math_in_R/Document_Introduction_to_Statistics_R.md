@@ -49,7 +49,7 @@ ggplot(data=var, aes(var)) +
 	  axis.line = element_line(colour = "black"))
 ```
 
-![alt text](https://github.com/triasteran/Data-Science-For-Life-Science/blob/master/Statistics_and_Math_in_R/pictures/dist_hist.png =100x20)
+<img src="https://github.com/triasteran/Data-Science-For-Life-Science/blob/master/Statistics_and_Math_in_R/pictures/dist_hist.png" alt="drawing" width="200"/>
 
 Also you can use density plot to demonstrate data distribution. In a density plot, we attempt to visualize the underlying probability distribution of the data by drawing an appropriate continuous curve which is estimated from the data (usually by kernel density estimation, which will not be covered in this document).
 
