@@ -13,12 +13,17 @@ A quick note on the layout of this document:
 
 First, you need to install and include libraries. 
 
+
 ```{r}
-require(ggplot2)
-require(dplyr)
-require(tidyr)
-require(psych)
-require(Rmisc)
+#to install library:
+#install.packages('ggplot2')
+
+#to include library:
+library(ggplot2) # visualisation 
+library(dplyr) # data frame manupulation 
+library(tidyr) # data frame manupulation 
+library(psych) # descriptive statistics for data frame 
+library(Rmisc) # confidence interval
 ```
 
 ## Descriptive statistics 
