@@ -77,7 +77,7 @@ ggplot(data=var, aes(var)) +
 	axis.line = element_line(colour = "black"))
 ```
 
-<img src="https://github.com/triasteran/Data-Science-For-Life-Science/blob/master/Statistics_and_Math_in_R/pictures/dist_density.png" alt="drawing" width="300"/>
+<img src="https://github.com/triasteran/Data-Science-For-Life-Science/blob/master/Statistics_and_Math_in_R/pictures/dist_density.png" alt="drawing" width="500"/>
 
 ### Central tendency 
 
@@ -151,7 +151,7 @@ panel.background = element_blank(), axis.line = element_line(colour = "black")) 
 [1] 
 ```
 
-<img src="https://github.com/triasteran/Data-Science-For-Life-Science/blob/master/Statistics_and_Math_in_R/pictures/central_tendency.png" alt="drawing" width="300"/>
+<img src="https://github.com/triasteran/Data-Science-For-Life-Science/blob/master/Statistics_and_Math_in_R/pictures/central_tendency.png" alt="drawing" width="500"/>
 
 ### Variability 
 
@@ -258,7 +258,7 @@ ggplot(x, aes(y)) +
 [1]
 ```
 
-<img src="https://github.com/triasteran/Data-Science-For-Life-Science/blob/master/Statistics_and_Math_in_R/pictures/quartiles.png" alt="drawing" width="300"/>
+<img src="https://github.com/triasteran/Data-Science-For-Life-Science/blob/master/Statistics_and_Math_in_R/pictures/quartiles.png" alt="drawing" width="500"/>
 
 ​	Let's look at the another example with continuous distribution.
 On a plot you can see that Q1,  Q2 and Q3 divide data into 4 intervals with equal probabilities (25% each):
@@ -301,7 +301,7 @@ geom_text(x=-1.1, y=0.1, label="25%") +
 [1] 
 ```
 
-<img src="https://github.com/triasteran/Data-Science-For-Life-Science/blob/master/Statistics_and_Math_in_R/pictures/quantiles2.png" alt="drawing" width="300"/>
+<img src="https://github.com/triasteran/Data-Science-For-Life-Science/blob/master/Statistics_and_Math_in_R/pictures/quantiles2.png" alt="drawing" width="500"/>
 
 ​	Quartiles are used in very popular and informative representation of data distribution - <b>boxplot</b>. Lower boundary of the box is Q1 (lower quartile), middle (red) is median or Q2, upper boundary is Q3 (upper quartile). 
 
@@ -322,7 +322,7 @@ text(x=1.25, y=Q3+1.5*(Q3-Q1), labels='Q3+1.5*IQR')
 [1]
 ```
 
-<img src="https://github.com/triasteran/Data-Science-For-Life-Science/blob/master/Statistics_and_Math_in_R/pictures/boxplot.png" alt="drawing" width="300"/>
+<img src="https://github.com/triasteran/Data-Science-For-Life-Science/blob/master/Statistics_and_Math_in_R/pictures/boxplot.png" alt="drawing" width="500"/>
 
 ```{r}
 #show boxplot points in density plot
@@ -359,7 +359,7 @@ p + geom_area(data = subset(d, x > Q2), aes(x=x, y=y), fill="blue", alpha=0.1) +
 [1]
 ```
 
-<img src="https://github.com/triasteran/Data-Science-For-Life-Science/blob/master/Statistics_and_Math_in_R/pictures/bozplot_expl.png" alt="drawing" width="300"/>
+<img src="https://github.com/triasteran/Data-Science-For-Life-Science/blob/master/Statistics_and_Math_in_R/pictures/bozplot_expl.png" alt="drawing" width="500"/>
 
 ### Descriptive statistics for data frame
 
