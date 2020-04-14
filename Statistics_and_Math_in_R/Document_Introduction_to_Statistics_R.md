@@ -60,7 +60,7 @@ ggplot(data=var, aes(var)) +
 	  axis.line = element_line(colour = "black"))
 ```
 
-<img src="https://github.com/triasteran/Data-Science-For-Life-Science/blob/master/Statistics_and_Math_in_R/pictures/dist_hist.png" alt="drawing" width="300"/>
+<img src="https://github.com/triasteran/Data-Science-For-Life-Science/blob/master/Statistics_and_Math_in_R/pictures/dist_hist.png" alt="drawing" width="500"/>
 
 ​	Also you can use <b>density plot</b> to demonstrate data distribution.  This chart is a variation of a histogram that uses kernel smoothing to plot values, allowing for smoother distributions by smoothing out the noise:
 
