@@ -187,13 +187,13 @@ Higher variance means that distribution will look more flat (spread):
 var <- data.frame(var = c(rnorm(200, 0, 1), var2 = rnorm(200, 0, 4)),
                   group = c(rep('variance1', 200), rep('variance4', 200)))
 
-# Using facet_grid(. ~ group), you can plot multiple subplots on one figure splitted by group variable
+# Using facet_wrap(~ group), you can plot multiple subplots on one figure splitted by group variable
 ggplot(data=var, aes(var)) + 
   geom_density(col = 'darkgreen',
                  fill="darkgreen", 
                  alpha=.5) +
   labs(title="Difference between distributions with variance=1 and variance=4", x="Variable", y="Density") + 
-  facet_grid(. ~ group, scale='free') +
+  facet_wrap(~group)  +
   theme(panel.grid.major = element_blank(), 
         panel.grid.minor = element_blank(),
         panel.background = element_blank(), 
