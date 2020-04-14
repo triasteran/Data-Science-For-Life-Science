@@ -179,6 +179,37 @@ sd(var$var)
 [1] 1.710534
 ```
 
+Higher variance means that distribution will look more flat (spread):
+
+```{r}
+# generate some random data, different by variance. For one variable variance is 1, for another is 4
+
+var <- data.frame(var = c(rnorm(200, 0, 1), var2 = rnorm(200, 0, 4)),
+                  group = c(rep('variance1', 200), rep('variance4', 200)))
+
+# Using facet_grid(. ~ group), you can plot multiple subplots on one figure splitted by group variable
+ggplot(data=var, aes(var)) + 
+  geom_density(col = 'darkgreen',
+                 fill="darkgreen", 
+                 alpha=.5) +
+  labs(title="Difference between distributions with variance=1 and variance=4", x="Variable", y="Density") + 
+  facet_grid(. ~ group, scale='free') +
+  theme(panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank(),
+        panel.background = element_blank(), 
+        axis.line = element_line(colour = "black")) +
+  theme(axis.text.x = element_text(size = 30),
+          axis.text.y = element_text(size = 30),
+          axis.title.x =  element_text(size = 30),
+          axis.title.y =  element_text(size = 30),
+          title = element_text(size = 30)) +
+  theme(strip.text.x = element_text(size = 30))
+```
+You should pay attention to the horizontal axis, for distribution with greater variance 
+x-axis has higher range of values.
+
+<img src="https://github.com/triasteran/Data-Science-For-Life-Science/blob/master/Statistics_and_Math_in_R/pictures/variability.png" alt="drawing" width="500"/>
+
 You definitely need to remember some basic distributions.
 
 ##### Bernoulli
