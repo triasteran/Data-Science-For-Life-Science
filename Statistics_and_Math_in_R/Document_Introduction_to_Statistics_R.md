@@ -29,7 +29,7 @@ library(Rmisc) # confidence interval
 suppressPackageStartupMessages(library(ggplot2))
 ```
 
-## Descriptive statistics 
+## Descriptive statistics for one variable
 
 ​	Before starting any statistical analysis of your data, it's important to perform an exploratory analysis first. There are simple functions in R which can help you with that. Let's start with some basics part of descriptive statistics in R. 
 
