@@ -233,31 +233,54 @@ Continuous distributions - Probability Density Function. /////////
 
 Think of Bernoulli as a single coin flip, with probability of success <i>p</i>  the coin will land heads. X - the random variable defining the outcome of the coin flip, and it will follow a distribution: 
 
-<img src="https://render.githubusercontent.com/render/math?math=e^{i \pi} = -1">
-
 <img src="https://render.githubusercontent.com/render/math?math=X \sim Bern(p, p(1-p))">
 
-where $p$ - mean, $$p(1-p)$$ - variance. There are only 2 outcomes: success and failure, so this distribution will be characterized by a probability mass functon as any other disctete dstribution (e.g. Binomial and Poisson)
+where <i>p</i> - mean, <i>p(1-p)</i> - variance. There are only 2 outcomes: success and failure, so this distribution will be characterized by a probability mass functon as any other disctete dstribution (e.g. Binomial and Poisson).
 
-##### Bernoulli
+Let's draw PMF: 
+
+```{r}
+# create data frame with outcomes - 0, 1 and probabilities of these outcomes - 0.8 and 0.1 
+prob.distr.df <- data_frame(value = c(0, 1),
+                            prob = c(0.8, 0.1))
+prob.distr.df$value <- factor(prob.distr.df$value)
+
+# lollipop plot consists of circle (geom_point()) and a segment (geom_segment()): 
+ggplot(prob.distr.df, aes(x=value, y=prob)) +
+  geom_segment( aes(x=value, xend=value, y=0, yend=prob)) +
+  geom_point( size=5, color="red",  alpha=0.7, shape=21, stroke=2)  +
+  theme(panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank(),
+        panel.background = element_blank(), 
+        axis.line = element_line(colour = "black")) +
+  theme(axis.text.x = element_text(size = 20),
+          axis.text.y = element_text(size = 20),
+          axis.title.x =  element_text(size = 20),
+          axis.title.y =  element_text(size = 20),
+          title = element_text(size = 16)) +
+  theme(strip.text.x = element_text(size = 20)) +
+  ylim(0, 1) +
+  labs(title='PMF for Bernoulli')
+```
+<img src="https://github.com/triasteran/Data-Science-For-Life-Science/blob/master/Statistics_and_Math_in_R/pictures/bernoulli.png" alt="drawing" width="500"/>
+
+
+
+
+
+ Binomial
 
 ```{r}
 
 ```
 
-##### Binomial
+Poisson
 
 ```{r}
 
 ```
 
-##### Poisson
-
-```{r}
-
-```
-
-##### Normal 
+Normal 
 
 ```{r}
 
