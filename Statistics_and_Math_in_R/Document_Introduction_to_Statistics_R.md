@@ -268,6 +268,7 @@ ggplot(prob.distr.df, aes(x=value, y=prob)) +
 
 
 
+
  Binomial
 
 ```{r}
