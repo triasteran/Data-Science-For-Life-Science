@@ -212,6 +212,31 @@ x-axis has higher range of values.
 
 You definitely need to remember some basic distributions.
 
+# Distributions 
+
+Every distribution in R has four types of functions: 
+
+* p for "probability", the cumulative distribution function (CDF)
+* q for "quantile" (it will be discussed in the next paragraph)
+* d for "density", the density function (probability density function)
+* r for "random", a random variable having the specified distribution
+
+Distributions can be discrete and continuous.
+It can be represented as a function with parameters (usually it's means and variance, but not only them). 
+
+Discrete distributions can be described by <b>Probability Mass Function (PMF) </b>. PMF is a function that gives the probability that a discrete random variable is exactly equal to some value.  
+Continuous distributions - Probability Density Function. /////////
+
+## Descrete distributions 
+
+<b> Bernoulli </b> 
+
+Think of Bernoulli as a single coin flip, with probability of success <i>p</i>  the coin will land heads. X - the random variable defining the outcome of the coin flip, and it will follow a distribution: 
+
+$$X \sim Bern(p, p(1-p))$$
+
+where $p$ - mean, $$p(1-p)$$ - variance. There are only 2 outcomes: success and failure, so this distribution will be characterized by a probability mass functon as any other disctete dstribution (e.g. Binomial and Poisson)
+
 ##### Bernoulli
 
 ```{r}
