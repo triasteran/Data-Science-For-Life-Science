@@ -233,7 +233,9 @@ Continuous distributions - Probability Density Function. /////////
 
 Think of Bernoulli as a single coin flip, with probability of success <i>p</i>  the coin will land heads. X - the random variable defining the outcome of the coin flip, and it will follow a distribution: 
 
-$$X \sim Bern(p, p(1-p))$$
+<img src="https://render.githubusercontent.com/render/math?math=e^{i \pi} = -1">
+
+<img src="https://render.githubusercontent.com/render/math?math=X \sim Bern(p, p(1-p))">
 
 where $p$ - mean, $$p(1-p)$$ - variance. There are only 2 outcomes: success and failure, so this distribution will be characterized by a probability mass functon as any other disctete dstribution (e.g. Binomial and Poisson)
 
