@@ -49,15 +49,20 @@ var <- data.frame(var = c(rnorm(40, mean=0.35, sd=1.05), rnorm(120, mean=0.8, sd
 # basic syntax for histogram: ggplot(data = your_data_frame, aes(x = variable)) + geom_histogram()
 # other options are needed to adjust plot characheristics 
 ggplot(data=var, aes(var)) + 
-       geom_histogram(binwidth = 0.8,
-                      col = 'green',
-                      fill="green", 
-                      alpha=.5) +
-          labs(title="Histogram for Var", x="Length", y="Count") + 
-	  theme(panel.grid.major = element_blank(), 
-	  panel.grid.minor = element_blank(),
-	  panel.background = element_blank(), 
-	  axis.line = element_line(colour = "black"))
+    geom_histogram(binwidth = 0.8,
+                   col = 'darkgreen',
+                   fill="darkgreen", 
+                   alpha=.5) +
+          labs(title="Histogram for Var", x="Variable", y="Count") + 
+    theme(panel.grid.major = element_blank(), 
+          panel.grid.minor = element_blank(),
+          panel.background = element_blank(), 
+          axis.line = element_line(colour = "black")) +
+    theme(axis.text.x = element_text(size = 30),
+          axis.text.y = element_text(size = 30),
+          axis.title.x =  element_text(size = 30),
+          axis.title.y =  element_text(size = 30),
+          title = element_text(size = 30))
 ```
 
 <img src="https://github.com/triasteran/Data-Science-For-Life-Science/blob/master/Statistics_and_Math_in_R/pictures/dist_hist.png" alt="drawing" width="500"/>
@@ -67,14 +72,19 @@ ggplot(data=var, aes(var)) +
 ```{r}
 # basic synax for density plot: ggplot(data=your_data_frame, aes(x = variable)) + geom_density()
 ggplot(data=var, aes(var)) + 
-  geom_density(col = 'green',
-                 fill="green", 
+  geom_density(col = 'darkgreen',
+                 fill="darkgreen", 
                  alpha=.5) +
-        labs(title="Density plot for Var", x="Length", y="Count") + 
-	theme(panel.grid.major = element_blank(), 
-	panel.grid.minor = element_blank(),
-	panel.background = element_blank(), 
-	axis.line = element_line(colour = "black"))
+        labs(title="Density plot for Var", x="Variable", y="Density") + 
+  theme(panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        panel.background = element_blank(), 
+        axis.line = element_line(colour = "black")) + 
+  theme(axis.text.x = element_text(size = 30),
+          axis.text.y = element_text(size = 30),
+          axis.title.x =  element_text(size = 30),
+          axis.title.y =  element_text(size = 30),
+          title = element_text(size = 30))
 ```
 
 <img src="https://github.com/triasteran/Data-Science-For-Life-Science/blob/master/Statistics_and_Math_in_R/pictures/dist_density.png" alt="drawing" width="500"/>
@@ -138,15 +148,21 @@ All this measures are shown on the plot below, red - mean, blue - median and bla
 ```{r}
 # using geom_vline you can add vertical lines to the plot:
 ggplot(data=var, aes(var)) + 
-  geom_histogram(breaks=seq(-3, 3, by=0.25),
-                 col = 'green',
-                 fill="green", 
+  geom_histogram(fill="darkgreen", 
                  alpha=.5) +
-        labs(title="Histogram for Var", x="Length", y="Count") + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
-panel.background = element_blank(), axis.line = element_line(colour = "black")) +
-        geom_vline(xintercept=mean(var$var), color='red') +
-        geom_vline(xintercept=median(var$var), color='blue') +
-        geom_vline(xintercept=apply(var, 2, mode)) 
+        labs(title="Histogram for Var", x="Variable", y="Count") + 
+        theme(panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank(),
+        panel.background = element_blank(), 
+        axis.line = element_line(colour = "black")) +
+        geom_vline(xintercept=mean(var$var), color='firebrick1', size=2) +
+        geom_vline(xintercept=median(var$var), color='dodgerblue3', size=2) +
+        geom_vline(xintercept=apply(var, 2, mode), size=2) +
+  theme(axis.text.x = element_text(size = 30),
+          axis.text.y = element_text(size = 30),
+          axis.title.x =  element_text(size = 30),
+          axis.title.y =  element_text(size = 30),
+          title = element_text(size = 30))
 
 [1] 
 ```
