@@ -356,7 +356,7 @@ ggplot(x, aes(y)) +
 [1]
 ```
 
-<img src="https://github.com/triasteran/Data-Science-For-Life-Science/blob/master/Statistics_and_Math_in_R/pictures/quartiles.png" alt="drawing" width="500"/>
+<img src="https://github.com/triasteran/Data-Science-For-Life-Science/blob/master/Statistics_and_Math_in_R/pictures/quartiles1.png" alt="drawing" heigth = "200" width="500"/>
 
 ​	Let's look at the another example with continuous distribution.
 On a plot you can see that Q1,  Q2 and Q3 divide data into 4 intervals with equal probabilities (25% each):
