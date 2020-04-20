@@ -1,11 +1,3 @@
----
-title: "Intro_2"
-output: html_document
----
-
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
 
 ```{r}
 require(ggplot2)
@@ -115,11 +107,6 @@ Two-sided hypothesis would be:
 In this case, H0 means that there is no difference between groups, and treatment does not cause any changes, and alternative one says that treatment can cause either cell reproduction or cell death.
 
 Usually, one-sided type should be used if you discover a statistically significant difference in a particular direction, but not in the other direction. 
-
-???????????
-* H0: mean1=mean2
-* H1: mean1<mean2
-?????????
 
 As a reminder:
 
@@ -231,9 +218,9 @@ p + geom_area(data = subset(d, x > upper_quantile),
                    aes(x=x, y=y), 
                    fill="purple", 
                    alpha=0.2) +
-  geom_text(x=3, y=0.04, label="5%", size=5) +
-  geom_text(x=6.5, y=0.1, label="6.562e-06", size=5) + 
-  geom_text(x=6, y=0.4, label="T=4.76", size=5) + 
+  geom_text(x=3, y=0.04, label="5%", size=9) +
+  geom_text(x=6.5, y=0.1, label="6.562e-06", size=9) + 
+  geom_text(x=6, y=0.4, label="T=4.76", size=9) + 
   geom_vline(xintercept = 4.7647, color = "purple", size=1.5)  + 
   theme(panel.grid.major = element_blank(), 
         panel.grid.minor = element_blank(),
@@ -285,13 +272,17 @@ It represents the correlation between a given sample and the normal distribution
 
 ```{r}
 p1 <- ggqqplot(df$treated) + labs(title='treated') + theme(text = element_text(size=30))
-
 p2 <- ggqqplot(df$control) + labs(title='control') + theme(text = element_text(size=30))
 
 #png("qqplot1.png", width = 1000, height = 500)
 plot_grid(p1, p2, nrow = 1)
 #while (!is.null(dev.list()))  dev.off()
+```
 
+<img src="https://github.com/triasteran/Data-Science-For-Life-Science/blob/master/Statistics_and_Math_in_R/pictures/qqplot1.png" alt="drawing" width="500"/>
+
+
+```{r}
 #example with non-normal data
 #notice how the points do not fall across the line at the upper end 
 set.seed(44)
@@ -308,6 +299,10 @@ p4 <- ggqqplot(rgamma(40, 4, 4)) + labs(title='qqplot') +theme(text = element_te
 plot_grid(p3, p4, nrow = 1 )
 #while (!is.null(dev.list()))  dev.off()
 ```
+
+<img src="https://github.com/triasteran/Data-Science-For-Life-Science/blob/master/Statistics_and_Math_in_R/pictures/qqplot2.png" alt="drawing" width="500"/>
+
+
 
 * and the variances of the groups to be compared are homogeneous (equal).
 
