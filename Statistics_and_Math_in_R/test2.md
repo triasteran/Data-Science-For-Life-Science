@@ -7,6 +7,5 @@
 
 ![equation](https://latex.codecogs.com/gif.latex?%5Cmathbf%7By%7D%3DX%5Cmathbf%7Ba%7D)
 
-Solving the equation system is equivalent to minimizing the misfit
 
-![equation](https://latex.codecogs.com/gif.latex?%5Cchi%5E%7B2%7D%3D%5Cleft%5C%7B%20X%5Cmathbf%7Ba%7D-%5Cmathbf%7By%7D%5Cright%5C%7D%20%5E%7BT%7DC%5E%7B-1%7D%5Cleft%5C%7B%20X%5Cmathbf%7Ba%7D-%5Cmathbf%7By%7D%5Cright%5C%7D,)
+Let $\text{S}_1(N) = \sum_{p=1}^N \text{E}(p)$
