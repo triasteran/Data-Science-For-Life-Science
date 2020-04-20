@@ -1,3 +1,11 @@
+---
+title: "Intro_2"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
 
 ```{r}
 require(ggplot2)
@@ -81,6 +89,8 @@ png("ttest1.png", width = 1300, height = 500)
 plot_grid(p1, p2, p3, nrow = 1)
 while (!is.null(dev.list()))  dev.off()
 ```
+
+<img src="https://github.com/triasteran/Data-Science-For-Life-Science/blob/master/Statistics_and_Math_in_R/pictures/ttest1.png" alt="drawing" width="500"/>
 
 So, it seems like treated cell cultures have more dead cells than control cell cultures. But how significant this difference is? 
 As you might recall from your past courses of statistics, in such case <b>T-test</b> can be used. <b>T-test</b> means that we are going to compare means of groups.  
@@ -189,6 +199,7 @@ ggplot(data.frame(x = c(-5, 5)), aes(x = x)) +
 
 #while (!is.null(dev.list()))  dev.off()
 ```
+<img src="https://github.com/triasteran/Data-Science-For-Life-Science/blob/master/Statistics_and_Math_in_R/pictures/tdist.png" alt="drawing" width="500"/>
 
 Let's talk about <i>p-value</i>. T-statistic and p-value are tightly linked. 
 
@@ -200,7 +211,8 @@ You place the t-value from your study in the t-distribution to determine how con
 Let's look at the plot with our example.
 T-statistic has df=98, and it takes value 4.7647 (as you may have noticed that it's definetely far from 0). 
 p-value = 6.562e-06 (super small!). 
-If we put value of T-statistic on plot (purple line), we can see, how far it is from 0: 
+If we put value of T-statistic on plot (purple line), we can see, how far it is from 0. 
+And we can finally find a p-value, which is the probability to obverve such value of T-statistic or even more extreme (greater in this case) under the assumption that null hypothesis is True: 
 
 ```{r}
 png("ttest2.png", width = 600, height = 500)
@@ -232,19 +244,9 @@ p + geom_area(data = subset(d, x > upper_quantile),
   labs(title='T dist with df=98') 
 
 while (!is.null(dev.list()))  dev.off()
-
-  
-
 ```
 
-
-
-
-
-
-
-T-statistic values of larger magnitudes (either negative or positive) are less likely. The far left and right "tails" of the T-distribution curve represent examples of obtaining extreme values of T, far from 0.
-
+<img src="https://github.com/triasteran/Data-Science-For-Life-Science/blob/master/Statistics_and_Math_in_R/pictures/ttest2.png" alt="drawing" width="500"/> 
 
 
 
@@ -252,40 +254,7 @@ T-statistic values of larger magnitudes (either negative or positive) are less l
 
 
 
-As you may remember, the statistic of T-test is distributed by T-distribution. 
-
-This is a formula of T-test statistics (for simplification, denominator is just SE, without details):
-
-
-
-
-
-
-
-
-In this course we are not going to discuss how to derive this formula.
-
-
-
-but basic inderstanding of this is that T-statistics is proportional to the difference between means 
-
-t = 4.7647, df = 98, p-value = 6.562e-06
-
-
-These are the lower and upper bound of the confidence interval for the mean: 
-[1] 95 percent confidence interval:
-[1] 1.388739 3.371261
-
-sample estimates:
-mean of x mean of y 
-     8.22      5.84 
-
-
-
-
-
-
-
+# T test assumptions 
 
 Before applying T-test, we must check underlying assumptions of this test:
 
