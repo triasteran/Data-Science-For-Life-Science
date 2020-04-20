@@ -199,7 +199,7 @@ Let's look at the plot with our example.
 T-statistic has df=98, and it takes value 4.7647 (as you may have noticed that it's definetely far from 0). 
 p-value = 6.562e-06 (super small!). 
 If we put value of T-statistic on plot (purple line), we can see, how far it is from 0. 
-And we can finally find a p-value, which is the probability to obverve such value of T-statistic or even more extreme (greater in this case) under the assumption that null hypothesis is True: 
+And we can finally find a <i>p-value</i>, which is the probability to obverve such value of T-statistic or even more extreme (greater in this case) under the assumption that null hypothesis is True (it's is simply area under the density curve, limited by value of T-statistic - purple vertical line). 
 
 ```{r}
 png("ttest2.png", width = 600, height = 500)
