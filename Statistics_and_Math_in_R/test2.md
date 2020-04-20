@@ -8,4 +8,4 @@
 ![equation](https://latex.codecogs.com/gif.latex?%5Cmathbf%7By%7D%3DX%5Cmathbf%7Ba%7D)
 
 
-Let $\text{S}_1(N) = \sum_{p=1}^N \text{E}(p)$
+[f1]: http://chart.apis.google.com/chart?cht=tx&chl=m=\frac{m_0}{\sqrt{1-{\frac{v^2}{c^2}}}}
