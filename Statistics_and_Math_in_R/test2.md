@@ -82,7 +82,7 @@ plot_grid(p1, p2, p3, nrow = 1)
 while (!is.null(dev.list()))  dev.off()
 ```
 
-<img src="https://github.com/triasteran/Data-Science-For-Life-Science/blob/master/Statistics_and_Math_in_R/pictures/ttest1.png" alt="drawing" width="500"/>
+<img src="https://github.com/triasteran/Data-Science-For-Life-Science/blob/master/Statistics_and_Math_in_R/pictures/ttest1.png" alt="drawing" width="1200"/>
 
 So, it seems like treated cell cultures have more dead cells than control cell cultures. But how significant this difference is? 
 As you might recall from your past courses of statistics, in such case <b>T-test</b> can be used. <b>T-test</b> means that we are going to compare means of groups.  
