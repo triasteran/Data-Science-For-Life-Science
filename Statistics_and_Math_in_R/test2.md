@@ -157,7 +157,7 @@ Generally, you look at only p-value, and draw conclusions like this: "p-value < 
 
 When you perform a t-test, you calculate a specific measure called T-statistic. It basically measures the size of the difference between sample mean of group1 and sample mean of group2 relative to the variation in the sample data. In other words, T-statistic is simply the calculated difference represented in units of standard error. Just look at the formula (for simplification, denominator is just SE, without details, but it represents standard error of 2 samples):
 
-![equation](http://latex.codecogs.com/gif.latex?T-Statistics%3D%5Cfrac%7B(M1-M2)-0%7D%7B(SE)%7D)   
+![equation](http://latex.codecogs.com/gif.latex?T_Statistic%3D%5Cfrac%7B(M1-M2)-0%7D%7B(SE)%7D)   
 
 where M1 - mean of group1 and M2 - mean of group2 (in our example, M1 for treated and M2 for control)
 
