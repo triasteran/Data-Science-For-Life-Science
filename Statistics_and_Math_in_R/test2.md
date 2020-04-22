@@ -1,4 +1,3 @@
-
 ```{r}
 require(ggplot2)
 require(dplyr)
@@ -8,6 +7,7 @@ require(ggpubr)
 require(gridExtra)
 require(car) #leven test for variance comparison
 library(cowplot)
+library(PairedData) # plot paired data
 
 ```
 
@@ -121,11 +121,11 @@ Besides, T-test could be paired on unpaired.
 
 
 ```{r}
-ttest <- t.test(x = df$treated, #first group
-       y = df$control, #second group
-       alternative = 'two.sided', #type of the hypotheses
-       paired = F, #unpaired test, becuase it's independent cell cultures 
-       var.equal =  T #one assumption which should be checked before applying test 
+ttest <- t.test(x = df$treated, # first group
+       y = df$control, # second group
+       alternative = 'greater', # type of the hypotheses. Could be greater, less, two.sided 
+       paired = F, # unpaired test, becuase it's independent cell cultures 
+       var.equal =  T # assumption which should be checked before applying test 
       )
 
 
@@ -133,23 +133,29 @@ ttest
 
 #[1]Two Sample t-test
 
-#[1]data:  df$treated and df$control
-#[1]t = 4.7647, df = 98, p-value = 6.562e-06
-#[1]alternative hypothesis: true difference in means is not equal to 0
-#[1]95 percent confidence interval:
-#[1] 1.388739 3.371261
-#[1]sample estimates:
-#[1]mean of x mean of y 
-#[1]     8.22      5.84 
+#[1] data:  df$treated and df$control
+#[1] t = 4.7647, df = 98, p-value = 3.281e-06
+#[1] alternative hypothesis: true difference in means is greater than 0
+#[1] 95 percent confidence interval:
+#[1]  1.550538      Inf
+#[1] sample estimates:
+#[1] mean of x mean of y 
+#[1]      8.22      5.84 
 
 # we can access different data from t test output, e.g. pvalue: 
 ttest$p.value
+# [1] 3.280808e-06
 
 # T statistic
 ttest$statistic
+# [1]  t 
+# 4.76467 
 
-# confidence interval:
+# confidence interval for mean difference:
 ttest$conf.int
+# [1] 1.550538      Inf
+# attr(,"conf.level")
+# [1] 0.95
 ```
   
 Let's interprete the output.
@@ -157,7 +163,7 @@ Generally, you look at only p-value, and draw conclusions like this: "p-value < 
 
 When you perform a t-test, you calculate a specific measure called T-statistic. It basically measures the size of the difference between sample mean of group1 and sample mean of group2 relative to the variation in the sample data. In other words, T-statistic is simply the calculated difference represented in units of standard error. Just look at the formula (for simplification, denominator is just SE, without details, but it represents standard error of 2 samples):
 
-![equation](http://latex.codecogs.com/gif.latex?T_Statistic%3D%5Cfrac%7B(M1-M2)-0%7D%7B(SE)%7D)   
+![equation](http://latex.codecogs.com/gif.latex?T_Statistic%3D%5Cfrac%7B(M1-M2)-0%7D%7BSE%7D)   
 
 where M1 - mean of group1 and M2 - mean of group2 (in our example, M1 for treated and M2 for control)
 
@@ -219,7 +225,7 @@ p + geom_area(data = subset(d, x > upper_quantile),
                    fill="purple", 
                    alpha=0.2) +
   geom_text(x=3, y=0.04, label="5%", size=9) +
-  geom_text(x=6.5, y=0.1, label="6.562e-06", size=9) + 
+  geom_text(x=6.3, y=0.1, label=round(ttest$p.value,6), size=7) + 
   geom_text(x=6, y=0.4, label="T=4.76", size=9) + 
   geom_vline(xintercept = 4.7647, color = "purple", size=1.5)  + 
   theme(panel.grid.major = element_blank(), 
@@ -230,16 +236,16 @@ p + geom_area(data = subset(d, x > upper_quantile),
   geom_segment(data=data.frame(x = 6, y = 0.08, xend = 5.5, yend = 0.005), mapping=aes(x=x, y=y, xend=xend, yend=yend), arrow=arrow(), size=2, color="darkblue") +
   labs(title='T dist with df=98') 
 
-while (!is.null(dev.list()))  dev.off()
+  while (!is.null(dev.list()))  dev.off()
+
+
 ```
 
 <img src="https://github.com/triasteran/Data-Science-For-Life-Science/blob/master/Statistics_and_Math_in_R/pictures/ttest2.png" alt="drawing" width="500"/> 
 
-
-
-
-
-
+But what about <i>confidence interval</i> for mean difference?
+If it includes 0, if means that the sample data are compatible with the null hypothesis. 
+In our case 95% confidence interval is (1.550538, Inf), and it does not contain 0, which tell us again that we have to reject the H0. You can also think of the confidence interval as arms that "embrace" values that are consistent with the data. If the null value is "embraced", then H0 is certainly not rejected. 
 
 # T test assumptions 
 
@@ -303,7 +309,6 @@ plot_grid(p3, p4, nrow = 1 )
 <img src="https://github.com/triasteran/Data-Science-For-Life-Science/blob/master/Statistics_and_Math_in_R/pictures/qqplot2.png" alt="drawing" width="500"/>
 
 
-
 * and the variances of the groups to be compared are homogeneous (equal).
 
 If the samples, being compared, follow normal distribution, to asses the equality of variances you can use Bartlett’s Test or Levene’s Test. 
@@ -339,6 +344,133 @@ leveneTest(tmp$count, tmp$group)
 ```
 
 P-value (0.08267) > 0.05, there is no evidence to reject null hypothesis about equal variances in populations. 
+
+# Non-parametric test for 2-sample comparison
+
+What if the assumption about normality is not True? 
+For this situation we can use <b>the Wilcoxon test </b> (also known as <b> Wilcoxon rank sum test </b> or <b> Mann-Whitney test </b>).
+
+Let's say we have the same question about treated and control cells whether drug cause cell death or not. 
+
+```{r}
+data <- read.table('non_parametric_test.txt')
+
+# plot it first 
+p1 <- ggplot(data %>% gather(group, value), aes(x = group, y = value)) +
+  geom_boxplot() + theme(panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank(),
+        panel.background = element_blank(), 
+        axis.line = element_line(colour = "black")) + 
+  theme(text = element_text(size=20)) 
+
+p2 <- ggplot(data %>% gather(group, value), aes(x = value, fill=group)) +
+  geom_density() + theme(panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank(),
+        panel.background = element_blank(), 
+        axis.line = element_line(colour = "black")) + 
+  theme(text = element_text(size=20)) 
+
+#png("nonparam1.png", width = 1100, height = 500)
+
+# as you can see here, samples are not normally distributed according to the shape. As you may remember, if the number of observations is more than 30, we can use t-test even without normality assumption. Here it's exactly 30, and it's better to use non-parametric form
+# surely you can also check normality with normality test and plot qq plot
+plot_grid(p1, p2,  nrow = 1)
+#while (!is.null(dev.list()))  dev.off()
+```
+
+<img src="https://github.com/triasteran/Data-Science-For-Life-Science/blob/master/Statistics_and_Math_in_R/pictures/nonparam1.png" alt="drawing" width="1200"/>
+
+As you can see here, p-value is extremely low (p-value < 0.05), so we can reject H0, which means that there is a difference between groups and treated group has more cells than control. 
+
+```{r}
+wilcox.test(data$treated, 
+            data$control, 
+            alternative = "greater", 
+            paired = F)
+
+#[1] cannot compute exact p-value with ties # it means that there are repated values
+#[1]	Wilcoxon rank sum test with continuity correction
+
+#[1] data:  data$treated and data$control
+#[1] W = 898, p-value = 9.41e-12
+#[1] alternative hypothesis: true location shift is greater than 0
+```
+
+# Paired tests 
+
+The paired samples t-test or non-parametric Wilcoxon test are used to compare the means between two related groups of samples.
+
+Paired t-test can be used only when the difference between data points is <i> normally </i> distributed. This can be checked using Shapiro-Wilk test. Otherwise, you should use non-parametric paired Wilcoxon test. Besides, if sample size is more than 30, t.test can be used without normality check. 
+
+As an example of data, 20 cats received a treatment during half a year. We want to know whether the treatment has an impact on the weight of the cats. So, we have sample with untreated cats and another sample with <i> the same </i>  cats, but treated. 
+
+```{r}
+data <- read.table('datasets/paired.txt', sep='\t')
+before <- subset(data,  group == "before", weight,drop = TRUE)
+after <- subset(data,  group == "after", weight,drop = TRUE)
+
+# plot the data
+# package PairedData provides a paired plot to show the increase between the same cats
+pd <- paired(before, after)
+p1 <- plot(pd, type = "profile", col=group) + theme_bw() + theme(text = element_text(size=20)) 
+
+p2 <- ggplot(data, aes(x = weight, fill=group, color = group)) +
+  geom_density() + theme(panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank(),
+        panel.background = element_blank(), 
+        axis.line = element_line(colour = "black"))  + 
+  theme(text = element_text(size=20)) 
+
+png("plots/paired.png", width = 1100, height = 500)
+plot_grid(p1, p2, nrow = 1)
+while (!is.null(dev.list()))  dev.off()
+```
+
+<img src="https://github.com/triasteran/Data-Science-For-Life-Science/blob/master/Statistics_and_Math_in_R/pictures/paired.png.png" alt="drawing" width="1200"/>
+
+  
+```{r}
+# check normality of difference 
+# p-value > 0.05, there is no evidence to reject H0 => we can assume normal distribution and use t.test here
+shapiro.test(before - after)
+
+# check for variances, P-value > 0.05, there is no evidence to reject H0 => we can assume equal variances
+bartlett.test(list(before, after))
+
+# perform t.test. We are interested in overall difference in both directions, whether the cats gained weight or lost it, so it's two.sided option 
+t.test(after, before, 
+       paired = T,
+       alternative = 'two.sided', 
+       var.equal = T)
+
+
+# p-value is low, so we can reject H0 => treatment has an impact on weight. 95% confidence interval for mean difference is (0.9558432, 1.9041568), which does not contain 0. And it is also strictly above zero, which suggests that the treatment caused weight gain. 
+
+#[1] Paired t-test
+
+#[1] data:  after and before
+#[1] t = 6.3123, df = 19, p-value = 4.656e-06
+#[1] alternative hypothesis: true difference in means is not equal to 0
+#[1] 95 percent confidence interval:
+#[1]  0.9558432 1.9041568
+#[1] sample estimates:
+#[1] mean of the differences 
+#[1]                    1.43 
+
+
+```
+
+
+# Multiple testing corrections 
+
+
+
+
+
+
+# Correlation 
+
+
 
 
 
