@@ -11,7 +11,7 @@ library(PairedData) # plot paired data
 
 ```
 
-# 2-sample compariosn: T-test 
+# 2-sample comparison: T-test 
 
 What if we conducted experment with the particular treatment, measured some characteristics and we want to understand whether our treatment works? 
 
