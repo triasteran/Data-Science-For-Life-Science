@@ -426,7 +426,7 @@ plot_grid(p1, p2, nrow = 1)
 while (!is.null(dev.list()))  dev.off()
 ```
 
-<img src="https://github.com/triasteran/Data-Science-For-Life-Science/blob/master/Statistics_and_Math_in_R/pictures/paired.png.png" alt="drawing" width="1200"/>
+<img src="https://github.com/triasteran/Data-Science-For-Life-Science/blob/master/Statistics_and_Math_in_R/pictures/paired.png" alt="drawing" width="1200"/>
 
   
 ```{r}
