@@ -674,7 +674,7 @@ png("plots/corrplot.png", width = 600, height = 600)
 corrplot(M, type="upper", order="hclust")
 while (!is.null(dev.list()))  dev.off()
 ```
-<img src="https://github.com/triasteran/Data-Science-For-Life-Science/blob/master/Statistics_and_Math_in_R/pictures/corrplot.png" alt="drawing" width="900"/>
+<img src="https://github.com/triasteran/Data-Science-For-Life-Science/blob/master/Statistics_and_Math_in_R/pictures/corrplot.png" alt="drawing" width="500"/>
 
 
 
