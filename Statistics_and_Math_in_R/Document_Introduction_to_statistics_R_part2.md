@@ -2,13 +2,13 @@
 
 In this part you will know: 
 
-* how to compare 2 samples using parametric and non-parametric tests
+* how to compare 2 samples 
+* how choose between parametric and non-parametric statistical tests
+* what is p-value and t-statistic in t-test 
 * how to find a correlation between samples 
 * what is multiple testing correction and how to apply it
 
-
-Firstly you need to include libraries:
-
+You need to load libraries first:
 ```{r}
 library(ggplot2) # plotting
 library(dplyr) # data frame manipulation
@@ -31,18 +31,18 @@ In a better world we could use the whole population (all people, all cells, etc.
 
 <b> Basic steps of statistical analysis </b>
 
-Let's say that in our imaginary experiment we have cell cultures, which have been treated with antibiotic. We also have untreated  control group. You have been observing some parameter of these cultures, e.g. number of cells. 
+Let's say that in our imaginary experiment we have cell cultures, which have been treated with antibiotic. We also have untreated control group. You have been observing some parameter of these cultures, e.g. number of cells. 
  
-Your question was: 'Has this treatment caused cell death?'
+Your question was: 'Has this treatment caused cell death?' (In other words, we want to know whether the number of dead cells in treated cell culture is higher than in control group).
 
-So now, we had the question (a hypithesis), we performed the experiment and now we can apply statistical analysis. 
+So now, we had the question (a hypothesis), we performed the experiment and now we can apply statistical analysis. 
 The best way to understand is to show it on the data. 
 
-Let's upload the data consisting of 2 groups: treated and control cell cultures. Each group is representing the number of alive cells in culture (we have managed somehow to put identical number of cells in each cell-culture dish).
+Let's upload the data consisting of 2 groups: treated and control cell cultures. Each group is representing the number of dead cells in culture (we have managed somehow to put identical number of cells in each cell-culture dish and count the exact number of dead cells, happy days! :) ).
 In total, we have 50 obseravtions. It's just imaginary data, so it has nothing to do with real experiments. 
 
 ```{r}
-df <- read.table('two_sample_ttest.txt')
+df <- read.table('datasets/two_sample_ttest.txt')
 
 head(df, 3)
 #[1] treated  control
@@ -246,7 +246,7 @@ p + geom_area(data = subset(d, x > upper_quantile),
   geom_segment(data=data.frame(x = 6, y = 0.08, xend = 5.5, yend = 0.005), mapping=aes(x=x, y=y, xend=xend, yend=yend), arrow=arrow(), size=2, color="darkblue") +
   labs(title='T dist with df=98') 
 
-  while (!is.null(dev.list()))  dev.off()
+while (!is.null(dev.list()))  dev.off()
 
 
 ```
