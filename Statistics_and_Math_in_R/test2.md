@@ -1,17 +1,27 @@
-```{r}
-require(ggplot2)
-require(dplyr)
-require(tidyr)
-require(psych)
-require(ggpubr)
-require(gridExtra)
-require(car) #leven test for variance comparison
-library(cowplot)
-library(PairedData) # plot paired data
+# Statistics in R, part 2
 
+In this part you will know: 
+
+* how to compare 2 samples using parametric and non-parametric tests
+* how to find a correlation between samples 
+* what is multiple testing correction and how to apply it
+
+
+Firstly you need to include libraries:
+
+```{r}
+library(ggplot2) # plotting
+library(dplyr) # data frame manipulation
+library(tidyr) # data frame manipulation
+library(ggpubr) # plotting
+library(gridExtra) # plotting
+library(car) #leven test for variance comparison
+library(cowplot) # arranging plots
+library(PairedData) # plot paired data
+library(corrplot) # plot correlation 
 ```
 
-# 2-sample comparison: T-test 
+## 2-sample comparison: T-test 
 
 What if we conducted experment with the particular treatment, measured some characteristics and we want to understand whether our treatment works? 
 
@@ -247,7 +257,7 @@ But what about <i>confidence interval</i> for mean difference?
 If it includes 0, if means that the sample data are compatible with the null hypothesis. 
 In our case 95% confidence interval is (1.550538, Inf), and it does not contain 0, which tell us again that we have to reject the H0. You can also think of the confidence interval as arms that "embrace" values that are consistent with the data. If the null value is "embraced", then H0 is certainly not rejected. 
 
-# T test assumptions 
+## T test assumptions 
 
 Before applying T-test, we must check underlying assumptions of this test:
 
@@ -345,10 +355,10 @@ leveneTest(tmp$count, tmp$group)
 
 P-value (0.08267) > 0.05, there is no evidence to reject null hypothesis about equal variances in populations. 
 
-# Non-parametric test for 2-sample comparison
+## Non-parametric test for 2-sample comparison
 
 What if the assumption about normality is not True? 
-For this situation we can use <b>the Wilcoxon test </b> (also known as <b> Wilcoxon rank sum test </b> or <b> Mann-Whitney test </b>).
+For this situation we can use <b>the Wilcoxon test </b> (also known as <b> Wilcoxon rank sum test </b> or <b> Mann-Whitney test </b>). It is rank-based test. 
 
 Let's say we have the same question about treated and control cells whether drug cause cell death or not. 
 
@@ -396,7 +406,7 @@ wilcox.test(data$treated,
 #[1] alternative hypothesis: true location shift is greater than 0
 ```
 
-# Paired tests 
+## Paired tests 
 
 The paired samples t-test or non-parametric Wilcoxon test are used to compare the means between two related groups of samples.
 
@@ -406,8 +416,10 @@ As an example of data, 20 cats received a treatment during half a year. We want 
 
 ```{r}
 data <- read.table('datasets/paired.txt', sep='\t')
-before <- subset(data,  group == "before", weight,drop = TRUE)
-after <- subset(data,  group == "after", weight,drop = TRUE)
+
+# subsetting data
+before <- subset(data,  group == "before", weight, drop = TRUE)
+after <- subset(data,  group == "after", weight, drop = TRUE)
 
 # plot the data
 # package PairedData provides a paired plot to show the increase between the same cats
@@ -433,9 +445,17 @@ while (!is.null(dev.list()))  dev.off()
 # check normality of difference 
 # p-value > 0.05, there is no evidence to reject H0 => we can assume normal distribution and use t.test here
 shapiro.test(before - after)
+#[1] Shapiro-Wilk normality test
+
+#[1] data:  before - after
+#[1] W = 0.92344, p-value = 0.1154
 
 # check for variances, P-value > 0.05, there is no evidence to reject H0 => we can assume equal variances
 bartlett.test(list(before, after))
+#[1] Bartlett test of homogeneity of variances
+
+#[1] data:  list(before, after)
+#[1] Bartlett's K-squared = 0.095683, df = 1, p-value = 0.7571
 
 # perform t.test. We are interested in overall difference in both directions, whether the cats gained weight or lost it, so it's two.sided option 
 t.test(after, before, 
@@ -444,7 +464,7 @@ t.test(after, before,
        var.equal = T)
 
 
-# p-value is low, so we can reject H0 => treatment has an impact on weight. 95% confidence interval for mean difference is (0.9558432, 1.9041568), which does not contain 0. And it is also strictly above zero, which suggests that the treatment caused weight gain. 
+# p-value is low, < 0.05, so we can reject H0 at this level of significance => treatment has an impact on weight. 95% confidence interval for mean difference is (0.9558432, 1.9041568), which does not contain 0. And it is also strictly above zero, which suggests that the treatment caused weight gain. 
 
 #[1] Paired t-test
 
@@ -458,18 +478,203 @@ t.test(after, before,
 #[1]                    1.43 
 
 
+# if the points difference is not normally distributed, you can use wilcox.test with paired=T:
+# wilcox.test(data$treated, 
+            #data$control, 
+            #alternative = "greater", 
+            #paired = T)
+
 ```
 
 
-# Multiple testing corrections 
+## Multiple testing corrections 
+
+Remember this 0.05 value you always use to compare p-value with? 
+This is the significance level (alpha) for a startistical test.
+
+In hypothesis testing, if H0 was a True and you rejected it mistakenely, it is Type 1 error, it's like a False Positive (when you discover something which is not real difference or effect).
+
+Alpha is also type I error rate. So when a single test reaches p-value 0.05, we can intuitively understand that with 5% of chance we make a mistake or 5% of cases we thought significant are actually not. 
+
+But what if we have multiple test to perform? 
+E.g. we have N samples and we want to apply t.test for each pair in the set (m tests). 
+
+If your chance of making an error in single test is alpha, then your chance to make one or more errors (false positives, mistakenly rejected H0) in m tests will be: 
+
+P(at least one error) = 1 - (1-alpha)^m
+
+Let's plot it depending on m:
+
+```{r}
+prob_at_least_one <- function(m) {
+  return (1 - (1 - 0.05)^m)
+}
+
+number_of_tests <- seq(1, 100)
+prob_of_at_least_one_error <- sapply(m, prob_at_least_one)
+
+# if m is large, the chances to get at least one error will be nearly 100%!
+png("plots/pval_adj.png", width = 1100, height = 500)
+plot(number_of_tests, prob_of_at_least_one_error)
+while (!is.null(dev.list()))  dev.off()
+```
+
+<img src="https://github.com/triasteran/Data-Science-For-Life-Science/blob/master/Statistics_and_Math_in_R/pictures/pval_adj.png" alt="drawing" width="1200"/>
+
+If m is large, the chances to get at least one error will be nearly 100%! That’s why we need to adjust the p-values for the number of hypothesis tests performed, or to control type I error rate.
+
+```{r}
+# generate 100 t.tests p-values 
+p_values <- replicate(100, t.test(rnorm(20, runif(1, 0, 1), 1), rnorm(20,runif(1, 0, 1), 1))$p.value)
+
+sum(p_values <= 0.05) / 100 # 19 of p-values are significant
+```
+
+There are multiple way to adjust p-values. 
+
+* Bonferroni correction 
+
+```{r}
+pvalues_adj <- p.adjust(p_values, method = "bonferroni")
+sum(pvalues_adj <= 0.05) / 100 # only 3 significant p_values are left after adjustment. It's really strict type of adjustment 
+# [1] 0.03
+```
+
+* Benjamini and Hochberg
+
+```{r}
+pvalues_adj <- p.adjust(p_values, method="BH")
+sum(pvalues_adj <= 0.05) / 100 # it left more significant p-values 
+# [1] 0.07 
+```
+
+
+## Correlation 
+
+Correlation analysis is used to study the association between two or more variables.
+
+<b> Correlation test between 2 variables </b> 
+
+There are 2 methods to permorm  <i> linear </i> correlation analysis (by linear I mean that two variables Y and X satisfy the equation Y = aX + b): 
+
+* Parametric test: Pearson correlation. It measures a linear dependence between 2 variables. You can apply it only if both variables follow normal distribution. 
+
+* Non-parametric test: Kendall and Spearman correlation, these tests do not require normality of the data, they are rank-based. 
+
+These tests give you the correlation coefficient, which ranges from -1 (perfect negative correlation) to 1 (perfect positive correlation).  A correlation of 0 shows no linear relationship between the movement of the two variables.
+
+Let's calculate correlation coefficient:
+
+```{r}
+var1 <- c(21.0, 21.0, 22.8, 21.4,18.7, 18.1, 14.3, 24.4,22.8,  19.2,  17.8, 16.4, 17.3, 15.2, 10.4, 10.4, 14.7)
+var2 <- c(160.0, 160.0, 108.0, 258.0, 360.0, 225.0, 360.0, 146.7, 140.8, 167.6, 167.6, 275.8, 275.8, 275.8, 472.0, 460.0, 440.0)
+
+# plot them first to convince that there is linear dependence 
+plot(var1, var2)
+
+# check normality assumption first
+shapiro.test(var1) # p-value = 0.5916, we can assume normality
+shapiro.test(var2) # p-value = 0.06996, we can assume normality, but it close to significance level 0.05 :) 
+
+# this calculates correlation coefficient
+# it close to -1 which means that 2 variables are negatively correlated
+cor(var1, var2, method='pearson')
+#[1] -0.874775
+
+
+```
+
+
+The correlation coefficient measures only the strength of a relationship in samples only. Because we want to draw conclusion about populations not just samples, we have to conduct a statistical significance test and obtain p-value. 
+
+* H0: correlation coefficient = 0
+* H0: correlation coefficient != 0
+
+```{r}
+# as we can see, p-value <0.05, we have to reject H0, so there is a non-zero significant correlation between variables
+# confidence interval, (-0.9542145 -0.6800696), is strictly negative and does not contain 0
+cor.test(var1, var2, method = 'pearson')
+
+#[1] Pearson's product-moment correlation
+#[1] data:  var1 and var2
+#[1] t = -6.9923, df = 15, p-value = 4.335e-06
+#[1] alternative hypothesis: true correlation is not equal to 0
+#[1] 95 percent confidence interval:
+#[1]  -0.9542145 -0.6800696
+#[1] sample estimates:
+#[1]       cor 
+#[1] -0.874775 
+
+
+# if you data are not normal, you can use non-parametric test:
+cor(var1, var2, method = 'spearman')
+cor.test(var1, var2, method = 'spearman')
+```
+
+<b> Spurious correlations </b>
+ 
+```{r}
+x <- seq(1, 50, 0.5)
+y1 <- x^2 + 3*x^3
+y2 <- cos(0.5*x) + log(14*x)
+
+
+png("plots/spcorr.png", width = 1100, height = 500)
+par(mfrow=c(1, 2))
+plot(x, y1, cex.lab=1.5, cex.axis=1.5, cex.main=1.5, cex.sub=1.5)
+text(x = 10, y = 100000, labels = paste('corr:', round(cor(x, y1), 3)), col='red',  cex=1.5)
+text(x = 10, y = 150000, labels = 'x^2 + 3*x^3', col='blue',  cex=1.5)
+plot(x, y2, cex.lab=1.5, cex.axis=1.5, cex.main=1.5, cex.sub=1.5)
+text(x = 10, y = 6.7, labels = paste('corr:', round(cor(x, y2), 3)),  col='red',  cex=1.5)
+text(x = 19, y = 7.5, labels = 'cos(0.5*x) + log(14*x)',  col='blue',  cex=1.5)
+while (!is.null(dev.list()))  dev.off()
+
+```
+ 
+<img src="https://github.com/triasteran/Data-Science-For-Life-Science/blob/master/Statistics_and_Math_in_R/pictures/spcorr.png" alt="drawing" width="1200"/>
+
+Remember, correlation does not mean causation. 
 
 
 
+<b> Correlation matrix plot </b>
+
+If you have multiple variables, you can create a fancy plot like this to show pairwise correlation coefficients:
+
+```{r}
 
 
+write.table(data.frame(var1 = mtcars$mpg, var2 = mtcars$qsec,  var3 = mtcars$gear, var4 = mtcars$carb, var5 = mtcars$disp),
+            'datasets/corrplot.txt', sep='\t')
 
-# Correlation 
+data <- read.table('datasets/corrplot.txt', sep='\t')
 
+head(data, 3)
+#[1]       var1  var2 var3 var4 var5
+#[1] 1	   21.0	16.46	   4	  4	 160
+#[1] 2	   21.0	17.02	   4	  4	 160
+#[1] 3	   22.8	18.61	   4	  1	 108
+
+
+# this calculates the correlation matrix 
+M <- cor(data)
+
+head(M, 3)
+#[1]           var1       var2       var3       var4       var5
+#[1] var1 1.0000000  0.4186840  0.4802848 -0.5509251 -0.8475514
+#[1] var2 0.4186840  1.0000000 -0.2126822 -0.6562492 -0.4336979
+#[1] var3 0.4802848 -0.2126822  1.0000000  0.2740728 -0.5555692
+
+# corrplot package allows you to plot fancy corraltion plot like this
+# blue shades represent positive correlation, the darkest is the highest (1)
+# red shades represent negative correlations, the darkest is the lowest (-1)
+# argument type "upper" means that you plot only upper triangle
+# argument order "hclust" means that variables are clustered by similarity 
+png("plots/corrplot.png", width = 600, height = 600)
+corrplot(M, type="upper", order="hclust")
+while (!is.null(dev.list()))  dev.off()
+```
+<img src="https://github.com/triasteran/Data-Science-For-Life-Science/blob/master/Statistics_and_Math_in_R/pictures/corrplot.png" alt="drawing" width="900"/>
 
 
 
