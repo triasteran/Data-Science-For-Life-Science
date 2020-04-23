@@ -251,7 +251,7 @@ while (!is.null(dev.list()))  dev.off()
 
 ```
 
-<img src="https://github.com/triasteran/Data-Science-For-Life-Science/blob/master/Statistics_and_Math_in_R/pictures/ttest2.png" alt="drawing" width="500"/> 
+<img src="https://github.com/triasteran/Data-Science-For-Life-Science/blob/master/Statistics_and_Math_in_R/pictures/ttest_2.png" alt="drawing" width="500"/> 
 
 But what about <i>confidence interval</i> for mean difference?
 If it includes 0, if means that the sample data are compatible with the null hypothesis. 
