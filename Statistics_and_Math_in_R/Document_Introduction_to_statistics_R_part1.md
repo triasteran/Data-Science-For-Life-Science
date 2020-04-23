@@ -1,12 +1,3 @@
----
-title: "Intro"
-output: html_document
----
-
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
-
 Week 5: Introduction to Statistics in R Worksheet.
 
 A quick note on the layout of this document:
