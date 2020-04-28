@@ -450,7 +450,7 @@ ggplot(poisson_df, aes(x = values,  fill=parameter, col=parameter)) +
 The Uniform distribution describes an experiment where there is an arbitrary outcome that lies between certain bounds: parameters, a and b, which are the minimum and maximum values. It models the situation when events that are equally likely to occur.
 
 <img src="https://render.githubusercontent.com/render/math?math=X \sim U(a, b)">
-where <i> (a+b)/2 <i> is mean and variance is <i> 1/12*(b-a)^2 <i>. 
+where <i> (a+b)/2 </i> is mean and variance is <i> 1/12*(b-a)^2 </i>. 
 
 Examples of Uniform distributions:
 * If you choose a card in a deck of unique cards (e.g. 36 cards in total and they all are equally likely to choose, 1/36)
