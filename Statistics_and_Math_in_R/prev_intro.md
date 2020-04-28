@@ -11,7 +11,7 @@
 
 where se - standard mean error, M - sample mean, <img src="https://render.githubusercontent.com/render/math?math=Z_{0.95} = 1.96"> - Z-score. 
 
-<img src="https://render.githubusercontent.com/render/math?math=Z%3D%5Cfrac%7B(x-\mu)%7D%7B(se)%7D">
+<img src="https://render.githubusercontent.com/render/math?math=Z%3D%5Cfrac%7Bx-\mu%7D%7Bse%7D">
 
 
 
