@@ -758,7 +758,7 @@ while (!is.null(dev.list()))  dev.off()
 #[1] 
 ```
 
-<img src="https://github.com/triasteran/Data-Science-For-Life-Science/blob/master/Statistics_and_Math_in_R/pictures/quantiles2.png" alt="drawing" width="700"/>
+<img src="https://github.com/triasteran/Data-Science-For-Life-Science/blob/master/Statistics_and_Math_in_R/pictures/quantiles2.png" alt="drawing" width="600"/>
 
 Quartiles are used in very popular and informative representation of data distribution - <b>boxplot</b>. Lower boundary of the box is Q1 (lower quartile), middle (red) is median or Q2, upper boundary is Q3 (upper quartile). 
 
