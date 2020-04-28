@@ -1,11 +1,22 @@
-# Week 5: Introduction to Statistics in R Worksheet.
-  
+# Introduction to Statistics in R Worksheet. Part 1.
+
+Here will be 3 documents for 1 week. 
+
+* part 1: decriptive statistics for one variable (measures of central tendency, variability, quantiles), descriptive statistcis for dataframe, Central Limit Theorem, Confidence interval for mean. 
+
+* part 2: hypothesis testing, 2-samples comparison (T-test, non-parametric test), correlation tests (parametric and non-parametric) 
+
+* part 3: linear regression analysis 
+
+--------------------------------------------------------------------------------------------------------------------------
+
 ** DISCLAIMER **
 
 I will try to explain the basics of statistic using very simple words which might not be fully mathematically correct, but in this way it's far short and more easy to understand. 
 
 Apprarently it's not possible to explain statistics in one tutorial, so I hope that most of you are already familiar with it to some extent and everything will be obvious for you :) 
 
+---------------------------------------------------------------------------------------------------------------------------
 
 ## Libraries
 
@@ -26,7 +37,7 @@ library(Rmisc) # confidence interval
 suppressPackageStartupMessages(library(ggplot2))
 ```
 
-# Descriptive statistics for one variable
+## Descriptive statistics for one variable
 
 Before starting any statistical analysis of your data, it's important to perform an exploratory analysis first. There are simple functions in R which can help you with that. Let's start with some basics part of descriptive statistics in R. 
 
@@ -760,7 +771,7 @@ p + geom_area(data = subset(d, x > Q2), aes(x=x, y=y), fill="blue", alpha=0.1) +
 
 <img src="https://github.com/triasteran/Data-Science-For-Life-Science/blob/master/Statistics_and_Math_in_R/pictures/bozplot_expl.png" alt="drawing" width="500"/>
 
-# Descriptive statistics for data frame
+## Descriptive statistics for data frame
 
 In previous paragraphs we have known how to describe the distribution of one variable: measures of central tendency (mean, median, mode), measures of variability (range, interquartile range, variance, standard deviation) and quantiles (quartiles, percentiles).  We also are aware of some basic visualization methods such as histogram, density plot and boxplot. Let's move to the description of multiple variables combined into data frame.
 
