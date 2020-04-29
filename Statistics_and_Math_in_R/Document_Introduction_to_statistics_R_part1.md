@@ -1,11 +1,3 @@
----
-title: "FINAL_PART1"
-output: html_document
----
-
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
 
 # Introduction to Statistics in R Worksheet. Part 1.
 
