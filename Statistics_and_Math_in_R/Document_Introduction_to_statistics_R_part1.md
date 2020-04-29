@@ -686,6 +686,7 @@ while (!is.null(dev.list()))  dev.off()
 
 <img src="https://github.com/triasteran/Data-Science-For-Life-Science/blob/master/Statistics_and_Math_in_R/pictures/empirical.png" alt="drawing" heigth = "200" width="500"/>
 
+
 <b> Student T distribution </b>
 
 T distribution is another distribution which is widely utilised in statistics tests (e.g. Student's t-test, confidence intervals, linear regression analysis). It looks almost identical to the normal distribution curve, but it has heavier tails, which means that it contains more values that fall far from its mean. 
@@ -695,7 +696,6 @@ The t distribution is used instead of the normal distribution when you have smal
 <img src="https://render.githubusercontent.com/render/math?math=X \sim T(df)">
 
 where df - degrees of freedom, df = n - 1, n - number of independent observations in sample.   
-
 
 ```{r}
 # it gives the value of density function for X=1, T-distribution with n=20, df=n-1=19
@@ -1001,7 +1001,7 @@ You can use a z-interval when:
 
 As we know from CLT, sample means are distributed <i> normally </i> with mean value equal to the population mean (<img src="https://render.githubusercontent.com/render/math?math=\mu">) and standard error (<img src="https://render.githubusercontent.com/render/math?math=se=\sigma / sqrt(n)">). 
 
-For normal distribution the following is rrue: from empirical rule we know that approximately 95% of the data fall within 2 standard deviations of the mean, but more precisely it's 1.96 standard deviations. This 1.96 is actually <img src="https://render.githubusercontent.com/render/math?math=Z_{0.95}"> score. 
+For normal distribution the following is true: from empirical rule we know that approximately 95% of the data fall within 2 standard deviations of the mean, but more precisely it's 1.96 standard deviations. This 1.96 is actually <img src="https://render.githubusercontent.com/render/math?math=Z_{0.95}"> score. 
 
 And finally, if we want to find this 95% interval for population mean, having only 1 sample, we can just use the next formula: 
 
@@ -1062,8 +1062,110 @@ CI(sample, ci = 0.99)
 
 Let's talk a bit about an interpretation of confidence interval. The name of the interval sounds always misleading. 
 Basically, it means that 95% of all confidence intervals for sample means (infinite number of samples should be drawn!) would include the mean of population. 
+
+In other words, the confidence level represents the frequency (i.e. the proportion) of possible confidence intervals that contain the true value of the unknown population parameter. For 95% CI this proportion is 0.95. 
+
 To better understand it visually, you can use this link: 
 https://istats.shinyapps.io/ExploreCoverage/
+
+Remember to use the correct units.
+E.g. if you data were in inches, you should say that 95% confidence interval for the population mean is (-0.22872579 inches, 0.29753289 inches). 
+
+---------------------------------------------------------------------------------------------------------------------
+
+If you are not bored and tired yet, let's talk how to calculate <img src="https://render.githubusercontent.com/render/math?math=Z_{0.95}"> and understand why we used qnorm(0.975). 
+
+<i> Z-score </i>
+
+Z-score (standard score) allows us to standardize two or more normal distributions: to put them on the same scale. Besides, it is used in confidence intervals.  
+
+A z-score measures exactly how many standard deviations above or below the mean a data point is.
+It is calculated by subtracting the population mean from an individual raw score and then dividing the difference by the population standard deviation: 
+
+<img src="https://render.githubusercontent.com/render/math?math=Z%3D%5Cfrac%7Bx-m%7D%7Bsd%7D">
+
+A positive z-score says the data point is above average, a negative z-score says the data point is below average.
+
+Let's work with standard normal distribution: mean = 0, sd = 1.
+If we standartise any point, we will get the same value:
+
+<img src="https://render.githubusercontent.com/render/math?math=Z%3D%5Cfrac%7Bx-0%7D%7B1%7D=x">. 
+
+So Z-scores for standard normal distribution are just data points. 
+
+```{r}
+set.seed(100)
+# it's standard normal distribution, mean=0, sd=1
+# so each z-score = (X - 0) / 1 = X, so it's just a value of variable 
+v <- data.frame(v = rnorm(50000, 0, 1))
+
+p <- ggplot(v, aes(v)) + geom_density(fill="white")
+
+d <- ggplot_build(p)$data[[1]]
+
+png("plots/zscore1.png", width = 700, height = 500)
+
+Z <- 1.96
+
+p + geom_area(data = subset(d, (x < Z) & (x > 0)), aes(x=x, y=y), fill="lightpink3", alpha=0.5) +
+  theme(panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank(),
+        panel.background = element_blank(), 
+        axis.line = element_line(colour = "black")) +
+  theme(text = element_text(size=30)) +
+  scale_x_continuous(breaks = c(-4, -2, 0, 1.96, 4), labels = c(-4, -2, 0, 'Z', 4)) +
+  labs(title = 'Standard normal dist') + xlab('variable or Z-scores')
+
+while (!is.null(dev.list()))  dev.off()
+```
+
+<img src="https://github.com/triasteran/Data-Science-For-Life-Science/blob/master/Statistics_and_Math_in_R/pictures/zcore1.png" alt="drawing" heigth = "200" width="500"/>
+
+Suppose we want to know which two z-scores separate out the middle 95% of the data. As you already know, from empirical rule approximately 95% of the data fall within 2 standard deviations of the mean (Z-scores = -2 and 2). In reality, it’s not exactly ±2, but close enough for rough calculations. Let's calculate these Z-scores accurately. 
+
+We can use quantiles for that: 
+
+```{r}
+# we want to get central 95% of the normally distributed data
+# quantile of level X is a cut point in a distribution for which X% of the data are located on the left side of this point 
+# so it's 0.95 + ((1 - 0.95)/2) = 0.975
+q1 <- qnorm(0.975)
+q2 <- qnorm(0.025)
+q1 
+# [1] 1.959964
+q2 
+# [1] -1.959964
+
+set.seed(100)
+# we use standard normal distribution 
+v <- data.frame(v = rnorm(50000, 0, 1))
+
+p <- ggplot(v, aes(v)) + geom_density(fill="white")
+
+d <- ggplot_build(p)$data[[1]]
+
+png("plots/zscore.png", width = 700, height = 500)
+
+p + geom_area(data = subset(d, (x > q1)), aes(x=x, y=y), fill="white", alpha=0.5) +
+  geom_area(data = subset(d, (x < q2)), aes(x=x, y=y), fill="white", alpha=0.5) +
+  geom_area(data = subset(d, (x > q2) & (x < q1)), aes(x=x, y=y), fill="lightpink3", alpha=0.5) +
+geom_text(x=2, y=0.05, label="Z \n qnorm(0.975)", size=8, color='purple4') +
+  geom_text(x=-2, y=0.05, label="Z \n qnorm(0.025)", size=8, color='purple4') +
+  geom_text(x=0, y=0.15, label="95% of \n the data", size=8) +
+   geom_text(x=-3.5, y=0.03, label="2.5%", size=8) +
+   geom_text(x=+3.5, y=0.03, label="2.5%", size=8) +
+  theme(panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank(),
+        panel.background = element_blank(), 
+        axis.line = element_line(colour = "black")) +
+  theme(text = element_text(size=20)) +
+  scale_x_continuous(breaks = c(-4, -3, -1.96, -1, 0, 1, 1.96, 3, 4), labels = c(-4, -3, -1.96, -1, 0, 1, 1.96, 3, 4)) 
+
+while (!is.null(dev.list()))  dev.off()
+```
+
+<img src="https://github.com/triasteran/Data-Science-For-Life-Science/blob/master/Statistics_and_Math_in_R/pictures/zscore.png" alt="drawing" heigth = "200" width="500"/>
+
 
 
 
