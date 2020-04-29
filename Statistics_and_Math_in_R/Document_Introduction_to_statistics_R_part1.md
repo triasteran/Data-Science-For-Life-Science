@@ -1,3 +1,4 @@
+
 # Introduction to Statistics in R Worksheet. Part 1.
 
 ** DISCLAIMER **
@@ -892,89 +893,88 @@ Visualisation of this theorem you can find here: https://istats.shinyapps.io/sam
 
 Let's dive into statistics applications. 
 
-If we want to estimate a parameter, ideally we would compute its value from the whole population. However, in real world we have to deal only with samples from population. What's even worse, we usually have only one sample. 
+If we want to estimate a parameter, ideally we would compute its value from the whole population. However, in real world we have to deal only with samples from population. What's even worse, we usually have only one sample.  Confidence intervals can help us. They are mainly used to estimate a population parameter from sample data. Let's calculate the 95% confidence interval for a population mean. 
 
-Confidence intervals can help us. They are mainly used to estimate a population parameter from sample data. 
+<b> Confidence interval based on Z-score </b>
 
-They can be explained in a simple way. e.g. we are going to calculate the 95% confidence interval for a population mean. 
+You can use a z-interval when:
 
-As we know from CLT, sample means are distributed <i> normally </i> with mean value equal to the population mean (<img src="https://render.githubusercontent.com/render/math?math=\mu">) and standard error (<img src="https://render.githubusercontent.com/render/math?math=\sigma / sqrt(n)">). 
+* sample size >= 30, population standard deviation is known ((<img src="https://render.githubusercontent.com/render/math?math=se=\sigma / sqrt(n)">))
+* original population is normal,  population standard deviation is known ((<img src="https://render.githubusercontent.com/render/math?math=se=\sigma / sqrt(n)">))
 
-For normal distribution the following is True: from empirical rule we know that approximately 95% of the data fall within 2 standard deviations of the mean, but more precisely it's 1.96 standard deviations. 
+As we know from CLT, sample means are distributed <i> normally </i> with mean value equal to the population mean (<img src="https://render.githubusercontent.com/render/math?math=\mu">) and standard error (<img src="https://render.githubusercontent.com/render/math?math=se=\sigma / sqrt(n)">). 
 
-This 1.96 called <img src="https://render.githubusercontent.com/render/math?math=Z_{0.95} score">. 
+For normal distribution the following is rrue: from empirical rule we know that approximately 95% of the data fall within 2 standard deviations of the mean, but more precisely it's 1.96 standard deviations. This 1.96 is actually <img src="https://render.githubusercontent.com/render/math?math=Z_{0.95}"> score. 
 
 And finally, if we want to find this 95% interval for population mean, having only 1 sample, we can just use the next formula: 
+
 <img src="https://render.githubusercontent.com/render/math?math=(M - Z_{0.95} * se, M %2B Z_{0.95} * se)">
 
-Where M - sample mean, se - standard mean error (or simply standard deviation of the sample mean distribution, which is equal to <img src="https://render.githubusercontent.com/render/math?math=\sigma / sqrt(n)">) and <img src="https://render.githubusercontent.com/render/math?math=Z_{0.95}"> is Z-score, which is equal here to 1.96. In order to use it we need somehow to know population sd - <img src="https://render.githubusercontent.com/render/math?math=\sigma">).
+where M - sample mean, se - standard mean error (or simply standard deviation of the sample mean distribution, which is equal to <img src="https://render.githubusercontent.com/render/math?math=\sigma / sqrt(n)">) and <img src="https://render.githubusercontent.com/render/math?math=Z_{0.95}"> is Z-score, which is equal here to 1.96. In order to use it we need somehow to know population sd - <img src="https://render.githubusercontent.com/render/math?math=\sigma">).
 
-But this method is not widely used in real life. If we don’t know the population mean (that’s what we are trying to estimate), then how would we know the population standard deviation?
+```{r}
+# R does not contain in-built functions for Z-interval, because in practice it is rarely used
+# so do it using base functions
+set.seed(123)
+sample <- rnorm(n=50, mean=0, sd=1)
+
+sd <- 1 # sd of the real population we somehow managed to know 
+n <- 50 # number of observations in sample
+
+# Z_0.95 = qnorm(0.975)
+c(mean(sample) - qnorm(0.975)*sd/sqrt(n), mean(sample) + qnorm(0.975)*sd/sqrt(n))
+# [1] -0.2427772  0.3115843
+```
 
 
+E.g. if we want to estimate 70% confidence interval, we just need to substitute the formula with appropriate Z-score (<img src="https://render.githubusercontent.com/render/math?math=Z_{0.70}">)
 
+But this method is not widely used in real life. If we don’t know the population mean (that’s what we are trying to estimate), then how would we know the population standard deviation <img src="https://render.githubusercontent.com/render/math?math=\sigma">? 
 
+<b> Confidence interval based on T-score </b>
 
---------------------
+This interval is used for more relatistic scenario: you don't need to know (<img src="https://render.githubusercontent.com/render/math?math=se=\sigma / sqrt(n)">). 
 
+You can use a t-interval when:
 
+* <img src="https://render.githubusercontent.com/render/math?math=se=\sigma / sqrt(n)"> is not known
 
+For 95% confidence interval formula is similar to Z-interval: 
 
+<img src="https://render.githubusercontent.com/render/math?math=(M - T_{0.95} * se/sqrt(n), M %2B T_{0.95} * se/sqrt(n))">
 
+Let's calculate T-based confidence interval using functions in R.
 
-Let's talk a bit about an interpretation of confidence interval. 
-The name of the interval sounds always misleading. 
+```{r}
+# let's generate random sample from normal population
+set.seed(123)
+sample <- rnorm(n=50, mean=0, sd=1)
+
+# do it using base functions
+se <- sd(sample) # se 
+n <- 50 # number of observations in sample
+# T_0.95 score = qt(0.975, df = n-1), df - parameter of T-distribution, degrees of freedom
+c(mean(sample) - qt(0.975, df = n-1)*se/sqrt(n), mean(sample) + qt(0.975, df = n-1)*se/sqrt(n))
+
+# find 95% confidence interval
+CI(sample, ci = 0.95)
+
+# find 99% confidence interval. Important to note, this interval is wider and gives us less narrow estimate. 
+CI(sample, ci = 0.99)
+```
+
+Let's talk a bit about an interpretation of confidence interval. The name of the interval sounds always misleading. 
 Basically, it means that 95% of all confidence intervals for sample means (infinite number of samples should be drawn!) would include the mean of population. 
 To better understand it visually, you can use this link: 
 https://istats.shinyapps.io/ExploreCoverage/
 
-
 ```{r}
-#let's generate random sample from normal population
-set.seed(123)
-sample <- rnorm(n=50, mean=0, sd=1)
-
-#do it using base functions
-#c(mean(sample) - qnorm(0.975)*sd/sqrt(n), mean(sample) + qnorm(0.975)*sd #/sqrt(n))
-
-#Find 95% confidence interval
-CI(sample, ci = 0.95)
-
-#Find 99% confidence interval. Important to note, this interval is wider and gives us less narrow estimate. 
-CI(sample, ci = 0.99)
 
 ```
 
 
-```{r}
-# generate distribution of sample means. It should be normal, 
-set.seed(100)
-v <- data.frame(v = rnorm(10000, 0, 1))
 
-#calculate quantiles
-lower_quantile <- quantile(v$v, probs = 0.025)
-upper_quantile <- quantile(v$v, probs = 0.975) 
 
-p <- ggplot(v, aes(v)) +
-          geom_density(fill="white")
-
-d <- ggplot_build(p)$data[[1]]
-
-p + geom_area(data = subset(d, x < lower_quantile), 
-                   aes(x=x, y=y), 
-                   fill="purple", 
-                   alpha=0.2) +
-  geom_area(data = subset(d, x > upper_quantile), 
-                   aes(x=x, y=y), 
-                   fill="purple", 
-                   alpha=0.2) +
-  geom_text(x=-3, y=0.04, label="2.5%") +
-  geom_text(x=3, y=0.04, label="2.5%") +
-  theme(panel.grid.major = element_blank(), 
-        panel.grid.minor = element_blank(),
-        panel.background = element_blank(), 
-        axis.line = element_line(colour = "black")) 
-```
 
 
 
