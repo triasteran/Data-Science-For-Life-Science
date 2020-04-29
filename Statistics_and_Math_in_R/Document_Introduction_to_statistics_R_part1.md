@@ -559,7 +559,7 @@ while (!is.null(dev.list()))  dev.off()
 
 The normal distribution is probably the most common distribution in all of probability and statistics. It is symmetric about the mean, showing that data near the mean are more frequent in occurrence than data far from the mean. Only mean and the standard deviation is required to explain the entire distribution. Mean, median and mode are all equal.
 
-<img src="https://render.githubusercontent.com/render/math?math=X \sim N(μ, σ)">
+<img src="https://render.githubusercontent.com/render/math?math=X \sim N(\mu, \sigma^2)">
 
 where <img src="https://render.githubusercontent.com/render/math?math=\mu"> - mean,  <img src="https://render.githubusercontent.com/render/math?math=\sigma"> - standard deviation 
 
