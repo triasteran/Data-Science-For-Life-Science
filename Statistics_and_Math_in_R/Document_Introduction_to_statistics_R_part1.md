@@ -1,9 +1,8 @@
-
 # Introduction to Statistics in R Worksheet. Part 1.
 
 ** DISCLAIMER **
 
-I will try to explain the basics of statistic using very simple words which might not be fully mathematically correct, but in this way it's far short and more easy to understand. 
+I will try to explain the basics of statistics using very simple words which might not be fully mathematically correct, but in this way it's far short and more easy to understand. 
 
 Apprarently it's not possible to explain all statistics concepts in one tutorial, so I hope that most of you are already familiar with it to some extent and everything will be pretty obvious for you :) 
 
@@ -899,8 +898,8 @@ If we want to estimate a parameter, ideally we would compute its value from the 
 
 You can use a z-interval when:
 
-* sample size >= 30, population standard deviation is known ((<img src="https://render.githubusercontent.com/render/math?math=se=\sigma / sqrt(n)">))
-* original population is normal,  population standard deviation is known ((<img src="https://render.githubusercontent.com/render/math?math=se=\sigma / sqrt(n)">))
+* sample size >= 30, population standard deviation is known ((<img src="https://render.githubusercontent.com/render/math?math=\sigma>))
+* original population is normal,  population standard deviation is known ((<img src="https://render.githubusercontent.com/render/math?math=\sigma">))
 
 As we know from CLT, sample means are distributed <i> normally </i> with mean value equal to the population mean (<img src="https://render.githubusercontent.com/render/math?math=\mu">) and standard error (<img src="https://render.githubusercontent.com/render/math?math=se=\sigma / sqrt(n)">). 
 
