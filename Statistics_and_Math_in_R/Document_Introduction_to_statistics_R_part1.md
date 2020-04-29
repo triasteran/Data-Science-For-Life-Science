@@ -1,3 +1,12 @@
+---
+title: "FINAL_PART1"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
 # Introduction to Statistics in R Worksheet. Part 1.
 
 ** DISCLAIMER **
@@ -12,12 +21,11 @@ If not, don't be shy, post your question on github issues or try to google it.
 
 Here will be 3 documents for 1 week. 
 
-* part 1: decriptive statistics for one variable (measures of central tendency, variability, quantiles), descriptive statistcis for dataframe, Central Limit Theorem, Confidence interval for mean. 
+* part 1: decriptive statistics for one variable (measures of central tendency, variability, quantiles), descriptive statistcis for dataframe, Central Limit Theorem, confidence interval for mean. 
 
 * part 2: hypothesis testing, 2-samples comparison (T-test, non-parametric test), correlation tests (parametric and non-parametric) 
 
 * part 3: linear regression analysis 
-
 
 
 ## Libraries
@@ -382,7 +390,9 @@ pbinom(q = 9, size = 10, prob = 0.4)
 # more intuitive quantile definition will be discussed in the next chapter 
 qbinom(p = 0.4, size = 20, prob = 0.4)
 # [1] 7
+```
 
+```{r}
 # now we create data frame with binomial data and plot it to compare disributions with different parameters 
 set.seed(123)
 binomial_df <- data.frame(values=c(rbinom(n = 1000, size = 100, prob = 0.8), 
@@ -408,7 +418,6 @@ ggplot(binomial_df, aes(x = values,  fill=parameter, col=parameter)) +
 
 # <<< this way you can save picture in .png format >>>
 #while (!is.null(dev.list()))  dev.off()
-
 ```
 
 <img src="https://github.com/triasteran/Data-Science-For-Life-Science/blob/master/Statistics_and_Math_in_R/pictures/binomial.png" alt="drawing" width="500"/>
@@ -1075,7 +1084,7 @@ E.g. if you data were in inches, you should say that 95% confidence interval for
 
 If you are not bored and tired yet, let's talk how to calculate <img src="https://render.githubusercontent.com/render/math?math=Z_{0.95}"> and understand why we used qnorm(0.975). 
 
-<i> Z-score </i>
+<b> Z-score </b>
 
 Z-score (standard score) allows us to standardize two or more normal distributions: to put them on the same scale. Besides, it is used in confidence intervals.  
 
@@ -1119,7 +1128,7 @@ p + geom_area(data = subset(d, (x < Z) & (x > 0)), aes(x=x, y=y), fill="lightpin
 while (!is.null(dev.list()))  dev.off()
 ```
 
-<img src="https://github.com/triasteran/Data-Science-For-Life-Science/blob/master/Statistics_and_Math_in_R/pictures/zcore1.png" alt="drawing" heigth = "200" width="500"/>
+<img src="https://github.com/triasteran/Data-Science-For-Life-Science/blob/master/Statistics_and_Math_in_R/pictures/zscore1.png" alt="drawing" heigth = "200" width="500"/>
 
 Suppose we want to know which two z-scores separate out the middle 95% of the data. As you already know, from empirical rule approximately 95% of the data fall within 2 standard deviations of the mean (Z-scores = -2 and 2). In reality, it’s not exactly ±2, but close enough for rough calculations. Let's calculate these Z-scores accurately. 
 
@@ -1165,11 +1174,3 @@ while (!is.null(dev.list()))  dev.off()
 ```
 
 <img src="https://github.com/triasteran/Data-Science-For-Life-Science/blob/master/Statistics_and_Math_in_R/pictures/zscore.png" alt="drawing" heigth = "200" width="500"/>
-
-
-
-
-
-
-
-
