@@ -1007,7 +1007,7 @@ And finally, if we want to find this 95% interval for population mean, having on
 
 <img src="https://render.githubusercontent.com/render/math?math=(M - Z_{0.95} * se, M %2B Z_{0.95} * se)">
 
-where M - sample mean, se - standard mean error (or simply standard deviation of the sample mean distribution, which is equal to <img src="https://render.githubusercontent.com/render/math?math=\sigma / sqrt(n)">) and <img src="https://render.githubusercontent.com/render/math?math=Z_{0.95}"> is Z-score, which is equal here to 1.96. In order to use it we need somehow to know population sd - <img src="https://render.githubusercontent.com/render/math?math=\sigma">).
+where M - sample mean, se - standard mean error (or simply standard deviation of the sample mean distribution, which is equal to <img src="https://render.githubusercontent.com/render/math?math=\sigma / sqrt(n)">) and <img src="https://render.githubusercontent.com/render/math?math=Z_{0.95}"> is Z-score, which is equal here to 1.96. In order to use it we need somehow to know population sd - <img src="https://render.githubusercontent.com/render/math?math=\sigma">.
 
 ```{r}
 # R does not contain in-built functions for Z-interval, because in practice it is rarely used
@@ -1034,7 +1034,7 @@ This interval is used for more relatistic scenario: you don't need to know (<img
 
 You can use a t-interval when:
 
-* <img src="https://render.githubusercontent.com/render/math?math=se=\sigma / sqrt(n)"> is not known
+* <img src="https://render.githubusercontent.com/render/math?math=\sigma"> is not known
 
 For 95% confidence interval formula is similar to Z-interval: 
 
