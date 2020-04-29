@@ -13,6 +13,9 @@ where se - standard mean error, M - sample mean, <img src="https://render.github
 
 <img src="https://render.githubusercontent.com/render/math?math=Z%3D%5Cfrac%7Bx-\mu%7D%7Bse%7D">
 
-
-
 ![equation](http://latex.codecogs.com/gif.latex?T_Statistic%3D%5Cfrac%7B(M1-M2)-0%7D%7BSE%7D)   
+
+
+![equation](http://latex.codecogs.com/gif.latex?Z_score%3D%5Cfrac%7BX - \mu%7D%7sd%7D)   
+
+<img src="https://render.githubusercontent.com/render/math?math=Z%3D%5Cfrac%7Bx-\mu%7D%7B\sigma%7D">
