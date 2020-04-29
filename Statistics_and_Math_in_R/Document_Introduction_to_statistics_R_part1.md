@@ -69,6 +69,8 @@ We can plot the distribution of this variable.
 ```{r}
 # basic syntax for histogram: ggplot(data = your_data_frame, aes(x = variable)) + geom_histogram()
 # other options are needed to adjust plot characheristics 
+png("plots/dist_hist.png", width = 600, height = 500)
+
 ggplot(data=var, aes(var)) + 
     geom_histogram(binwidth = 0.8,
                    col = 'darkgreen',
@@ -79,7 +81,9 @@ ggplot(data=var, aes(var)) +
           panel.grid.minor = element_blank(),
           panel.background = element_blank(), 
           axis.line = element_line(colour = "black")) +
-   theme(text = element_text(size=20))
+   theme(text = element_text(size=25))
+
+while (!is.null(dev.list()))  dev.off()
 ```
 
 <img src="https://github.com/triasteran/Data-Science-For-Life-Science/blob/master/Statistics_and_Math_in_R/pictures/dist_hist.png" alt="drawing" width="500"/>
@@ -87,6 +91,8 @@ ggplot(data=var, aes(var)) +
 Also you can use <b>density plot</b> to demonstrate data distribution.  This chart is a variation of a histogram that uses kernel smoothing to plot values, allowing for smoother distributions by smoothing out the noise. On y-axis there are normalized counts. Sum of all probabilities in a distribution (area under density curve) is equal to 1. 
 
 ```{r}
+png("plots/dist_density.png", width = 600, height = 500)
+
 # basic synax for density plot: ggplot(data=your_data_frame, aes(x = variable)) + geom_density()
 ggplot(data=var, aes(var)) + 
   geom_density(col = 'darkgreen',
@@ -97,10 +103,43 @@ ggplot(data=var, aes(var)) +
         panel.grid.minor = element_blank(),
         panel.background = element_blank(), 
         axis.line = element_line(colour = "black")) + 
-  theme(text = element_text(size=20))
+  theme(text = element_text(size=25))
+
+while (!is.null(dev.list()))  dev.off()
 ```
 
 <img src="https://github.com/triasteran/Data-Science-For-Life-Science/blob/master/Statistics_and_Math_in_R/pictures/dist_density.png" alt="drawing" width="500"/>
+
+Another form of distribution is CDF - Cumulative Distribution Function. 
+CDF is function F(x), which is equal to the probability that random variable X will take a value less than or equal to x. 
+
+```{r}
+png("plots/ecdf.png", width = 600, height = 500)
+
+# you can just add stat_ecdf() to plot cdf from your data
+# other elements here are optional, just to show what does the value of this function mean 
+ggplot (data=var, aes(x=var)) + 
+  stat_ecdf(color = 'darkgreen') +
+  labs(title="CDF", x="Var", y="cdf") + 
+  theme(panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        panel.background = element_blank(), 
+        axis.line = element_line(colour = "black")) + 
+  theme(text = element_text(size=25)) +
+  geom_vline(xintercept=0.5, col='blue') +
+  geom_hline(yintercept=0.5, col='red') +
+  geom_point(aes(x=0.5, y=0.5), colour="orange") +
+  geom_segment(aes(x = 0.86, y = 0.86, xend = 0.55, yend = 0.55),
+                  arrow = arrow(length = unit(0.3, "cm"))) +
+  geom_text(x = 0.80, y = 0.91, label='Prob(Var <= 0.5) = 0.5', size=8) +
+  scale_x_continuous(breaks = c(-4, -3, -2, -1, 0, 0.5, 1, 2, 3, 4)) +
+  theme(axis.text.x = element_text(angle = 90))
+
+
+while (!is.null(dev.list()))  dev.off()
+```
+
+<img src="https://github.com/triasteran/Data-Science-For-Life-Science/blob/master/Statistics_and_Math_in_R/pictures/ecdf.png" alt="drawing" heigth = "200" width="500"/>
 
 ## Central tendency 
 
@@ -271,7 +310,7 @@ bernoulli_df <- data.frame(value = c(0, 1),
                             prob = c(0.8, 0.1))
 bernoulli_df$value <- factor(bernoulli_df$value)
 
-#png("bernoulli.png", width = 600, height = 500)
+#png("plots/bernoulli.png", width = 600, height = 500)
 
 # lollipop plot consists of circle (geom_point()) and a segment (geom_segment()): 
 ggplot(bernoulli_df, aes(x=value, y=prob)) +
@@ -382,8 +421,8 @@ Important to mention that Poisson distribution is used to describe the distribut
 
 <img src="https://render.githubusercontent.com/render/math?math=X \sim Poiss(\lambda)">
 
-with \lambda  being both the mean and the variance.
-\lambda can be thought of as the expected number of events in the interval.
+with <img src="https://render.githubusercontent.com/render/math?math=\lambda">  being both the mean and the variance.
+<img src="https://render.githubusercontent.com/render/math?math=\lambda"> can be thought of as the expected number of events in the interval.
 
 Examples of Poisson distributions:
 * What the probability of waiting for a bus for 1 year if the average waiting time is 20 minutes (for relatively popular route)? This example is frequently used to describe Poisson process, however, in real life, buses have schedule and the arrivals are not independent of one another. 
@@ -501,6 +540,8 @@ ggplot(uniform_df, aes(x = values,  fill=parameter, col=parameter)) +
 
 # <<< this way you can save picture in .png format >>>
 while (!is.null(dev.list()))  dev.off()
+
+
 ```
 
 <img src="https://github.com/triasteran/Data-Science-For-Life-Science/blob/master/Statistics_and_Math_in_R/pictures/uniform.png" alt="drawing" heigth = "200" width="500"/>
@@ -514,15 +555,13 @@ while (!is.null(dev.list()))  dev.off()
 
 <img src="https://github.com/triasteran/Data-Science-For-Life-Science/blob/master/Statistics_and_Math_in_R/pictures/uniform2.png" alt="drawing" heigth = "200" width="500"/>
 
-
-
 <b> Normal </b> 
 
 The normal distribution is probably the most common distribution in all of probability and statistics. It is symmetric about the mean, showing that data near the mean are more frequent in occurrence than data far from the mean. Only mean and the standard deviation is required to explain the entire distribution. Mean, median and mode are all equal.
 
 <img src="https://render.githubusercontent.com/render/math?math=X \sim N(μ, σ)">
 
-where \mu - mean,  \sigma - standard deviation 
+where <img src="https://render.githubusercontent.com/render/math?math=\mu"> - mean,  <img src="https://render.githubusercontent.com/render/math?math=\sigma"> - standard deviation 
 
 Examples: 
 * height or weight of animals
@@ -598,7 +637,6 @@ v <- data.frame(v = rnorm(50000, 0, 1))
 sigma <- sd(v$v)
 mu <- mean(v$v)
 
-
 # create basic density plot
 p <- ggplot(v, aes(v)) +
           geom_density(fill="white")
@@ -648,6 +686,66 @@ while (!is.null(dev.list()))  dev.off()
 
 <img src="https://github.com/triasteran/Data-Science-For-Life-Science/blob/master/Statistics_and_Math_in_R/pictures/empirical.png" alt="drawing" heigth = "200" width="500"/>
 
+<b> Student T distribution </b>
+
+T distribution is another distribution which is widely utilised in statistics tests (e.g. Student's t-test, confidence intervals, linear regression analysis). It looks almost identical to the normal distribution curve, but it has heavier tails, which means that it contains more values that fall far from its mean. 
+
+The t distribution is used instead of the normal distribution when you have small samples (e.g. in confidence intervals of the mean). The larger the sample size, the more the t distribution looks like the normal distribution. 
+
+<img src="https://render.githubusercontent.com/render/math?math=X \sim T(df)">
+
+where df - degrees of freedom, df = n - 1, n - number of independent observations in sample.   
+
+
+```{r}
+# it gives the value of density function for X=1, T-distribution with n=20, df=n-1=19
+dt(x = 1, df = 19)
+# [1] 0.2357406
+
+# it generates values from T-distribution with parameters df=n-1=19
+set.seed(24)
+rt(n=5, df=19)
+# [1]  0.5979578 -1.7849844  1.8205241  1.4047534 -0.3133408
+
+# it gives you probability that random variable X t-distributed df=19 will take a value less than or equal to q = 2
+pt(q = 2, df=19)
+# [1] 0.969999
+
+# it gives the value of quantile function:
+# 0.2 quantile indicates the point where 20% percent of the data have values less than this number
+qt(p = 0.2, df=19)
+# [1] -0.8609506
+```
+
+```{r}
+# let's plot PDF for different parameters of normal distribution
+set.seed(123)
+t_df <- data.frame(values=c(rt(1000, df = 3), 
+                               rt(1000, df = 12), 
+                               rt(1000, df = 99)),
+                          parameter=c(rep('df=3', 1000), 
+                                      rep('df=12', 1000),
+                                      rep('df=99', 1000)))
+
+# <<< this way you can save picture in .png format >>> 
+png("plots/t.png", width = 600, height = 500)
+  
+ggplot(t_df, aes(x = values,  fill=parameter, col=parameter)) + 
+  geom_density(position="dodge",  alpha=0.5) +
+  theme(panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank(),
+        panel.background = element_blank(), 
+        axis.line = element_line(colour = "black")) +
+  theme(text = element_text(size=20)) +
+  theme(strip.text.x = element_text(size = 30), 
+        legend.text=element_text(size=24))+
+  labs(title='PDF for T dist')
+
+# <<< this way you can save picture in .png format >>>
+while (!is.null(dev.list()))  dev.off()
+```
+
+<img src="https://github.com/triasteran/Data-Science-For-Life-Science/blob/master/Statistics_and_Math_in_R/pictures/t.png" alt="drawing" heigth = "200" width="500"/>
 
 ## Quartiles, quantiles, percentiles 
 
@@ -966,10 +1064,6 @@ Let's talk a bit about an interpretation of confidence interval. The name of the
 Basically, it means that 95% of all confidence intervals for sample means (infinite number of samples should be drawn!) would include the mean of population. 
 To better understand it visually, you can use this link: 
 https://istats.shinyapps.io/ExploreCoverage/
-
-```{r}
-
-```
 
 
 
