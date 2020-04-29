@@ -1,7 +1,5 @@
 # Introduction to Statistics in R Worksheet. Part 1.
 
---------------------------------------------------------------------------------------------------------------------------
-
 ** DISCLAIMER **
 
 I will try to explain the basics of statistic using very simple words which might not be fully mathematically correct, but in this way it's far short and more easy to understand. 
@@ -882,7 +880,9 @@ describeBy(x = df[,-c(4, 5)], group = list(df$group_var1, df$group_var2), mat=T,
 
 ## Central Limit Theorem
 
-<b>The central limit theorem</b> states that if you have a population with mean μ and standard deviation σ and take sufficiently large random samples from the population with replacement, then the distribution of the sample means will be approximately normally distributed with mean = μ and standard mean error (se) = σ/sqrt(n). The higher n, the lower variablility of the sample means (distribution of sample means is narrower). 
+<b>The central limit theorem</b> states that if you have a population with mean μ and standard deviation σ and take sufficiently large random samples from the population with replacement, then the distribution of the sample means will be approximately normally distributed with mean <img src="https://render.githubusercontent.com/render/math?math=\mu">  and standard mean error <img src="https://render.githubusercontent.com/render/math?math=se = \sigma / sqrt(n)"> (standard mean error is just a stadard deviation for sample means distribution). 
+
+The higher n, the lower variablility of the sample means (distribution of sample means is narrower). 
 
 Random sample should be sufficiently large if population is not nomally disrtibuted (n>=30).
 
@@ -894,12 +894,35 @@ Let's dive into statistics applications.
 
 If we want to estimate a parameter, ideally we would compute its value from the whole population. However, in real world we have to deal only with samples from population. What's even worse, we usually have only one sample. 
 
-Confidence intervals can help us. They are mainly used to find a population parameter from the sample data. 
+Confidence intervals can help us. They are mainly used to estimate a population parameter from sample data. 
 
-They can be explained in a simple way. e.g. we calculate the 95% confidence interval for a population mean. 
-As we know from CLT, sample means are distributed normally with mean value equal to the population mean (μ). 
-So we can use it to determine confidence interval. 95% of all sample means are located in the interval (μ - 1.96*se, μ + 1.96*se) which is the 95%-confidence interval for the population mean (μ). 
+They can be explained in a simple way. e.g. we are going to calculate the 95% confidence interval for a population mean. 
 
+As we know from CLT, sample means are distributed <i> normally </i> with mean value equal to the population mean (<img src="https://render.githubusercontent.com/render/math?math=\mu">) and standard error (<img src="https://render.githubusercontent.com/render/math?math=\sigma / sqrt(n)">). 
+
+For normal distribution the following is True: from empirical rule we know that approximately 95% of the data fall within 2 standard deviations of the mean, but more precisely it's 1.96 standard deviations. 
+
+This 1.96 called <img src="https://render.githubusercontent.com/render/math?math=Z_{0.95} score">. 
+
+And finally, if we want to find this 95% interval for population mean, having only 1 sample, we can just use the next formula: 
+<img src="https://render.githubusercontent.com/render/math?math=(M - Z_{0.95} * se, M %2B Z_{0.95} * se)">
+
+Where M - sample mean, se - standard mean error (or simply standard deviation of the sample mean distribution, which is equal to <img src="https://render.githubusercontent.com/render/math?math=\sigma / sqrt(n)">) and <img src="https://render.githubusercontent.com/render/math?math=Z_{0.95}"> is Z-score, which is equal here to 1.96. In order to use it we need somehow to know population sd - <img src="https://render.githubusercontent.com/render/math?math=\sigma">).
+
+But this method is not widely used in real life. If we don’t know the population mean (that’s what we are trying to estimate), then how would we know the population standard deviation?
+
+
+
+
+
+--------------------
+
+
+
+
+
+
+Let's talk a bit about an interpretation of confidence interval. 
 The name of the interval sounds always misleading. 
 Basically, it means that 95% of all confidence intervals for sample means (infinite number of samples should be drawn!) would include the mean of population. 
 To better understand it visually, you can use this link: 
