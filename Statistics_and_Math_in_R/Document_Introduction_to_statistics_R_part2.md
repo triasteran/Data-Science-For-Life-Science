@@ -177,7 +177,7 @@ ggplot(data.frame(x = c(-5, 5)), aes(x = x)) +
 #while (!is.null(dev.list()))  dev.off()
 ```
 
-<img src="https://github.com/triasteran/Data-Science-For-Life-Science/blob/master/Statistics_and_Math_in_R/pictures/tdist.png" alt="drawing" width="500"/>
+<img src="https://github.com/triasteran/Data-Science-For-Life-Science/blob/master/Statistics_and_Math_in_R/pictures/tdist.png" alt="drawing" width="600"/>
 
 ​	Let's talk about <i>p-value</i>. T-statistic and p-value are tightly linked. T-distributions assume that you draw repeated random samples from a population where <b>the null hypothesis is true</b>. The peak of the graph is right at zero, which indicates that obtaining a sample value close to the null hypothesis is the most likely.
 
@@ -213,7 +213,7 @@ p + geom_area(data = subset(d, x > upper_quantile),
   labs(title='T dist with df=98') 
 ```
 
-<img src="https://github.com/triasteran/Data-Science-For-Life-Science/blob/master/Statistics_and_Math_in_R/pictures/ttest2.png" alt="drawing" width="500"/> 
+<img src="https://github.com/triasteran/Data-Science-For-Life-Science/blob/master/Statistics_and_Math_in_R/pictures/ttest2.png" alt="drawing" width="600"/> 
 
 ​	But what about <i>confidence interval</i> for mean difference? If it includes 0, if means that the sample data are compatible with the null hypothesis.  In our case 95% confidence interval is (1.550538, Inf), and it does not contain 0, which tell us again that we have to reject the H0. You can also think of the confidence interval as arms that "embrace" values that are consistent with the data. If the null value is "embraced", then H0 is certainly not rejected. 
 
@@ -253,7 +253,7 @@ p2 <- ggqqplot(df$control) + labs(title='control') + theme(text = element_text(s
 plot_grid(p1, p2, nrow = 1)
 ```
 
-<img src="https://github.com/triasteran/Data-Science-For-Life-Science/blob/master/Statistics_and_Math_in_R/pictures/qqplot1.png" alt="drawing" width="500"/>
+<img src="https://github.com/triasteran/Data-Science-For-Life-Science/blob/master/Statistics_and_Math_in_R/pictures/qqplot1.png" alt="drawing" width="1200"/>
 
 
 ```{r}
@@ -272,7 +272,7 @@ p4 <- ggqqplot(rgamma(40, 4, 4)) + labs(title='qqplot') +theme(text = element_te
 plot_grid(p3, p4, nrow = 1 )
 ```
 
-<img src="https://github.com/triasteran/Data-Science-For-Life-Science/blob/master/Statistics_and_Math_in_R/pictures/qqplot2.png" alt="drawing" width="500"/>
+<img src="https://github.com/triasteran/Data-Science-For-Life-Science/blob/master/Statistics_and_Math_in_R/pictures/qqplot2.png" alt="drawing" width="1200"/>
 
 
 * and the variances of the groups to be compared are homogeneous (equal).
