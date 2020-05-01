@@ -449,10 +449,11 @@ prob_at_least_one <- function(m) {
 }
 
 number_of_tests <- seq(1, 100)
-prob_of_at_least_one_error <- sapply(m, prob_at_least_one)
+prob_of_at_least_one_error <- sapply(number_of_tests, prob_at_least_one)
+
 
 # if m is large, the chances to get at least one error will be nearly 100%!
-plot(number_of_tests, prob_of_at_least_one_error)
+plot(number_of_tests, prob_of_at_least_one_error, cex=1.5, cex.main=2.5, cex.lab=2.5, cex.axis=2.5)
 ```
 
 <img src="https://github.com/triasteran/Data-Science-For-Life-Science/blob/master/Statistics_and_Math_in_R/pictures/pval_adj.png" alt="drawing" width="600"/>
