@@ -455,7 +455,7 @@ prob_of_at_least_one_error <- sapply(m, prob_at_least_one)
 plot(number_of_tests, prob_of_at_least_one_error)
 ```
 
-<img src="https://github.com/triasteran/Data-Science-For-Life-Science/blob/master/Statistics_and_Math_in_R/pictures/pval_adj.png" alt="drawing" width="1200"/>
+<img src="https://github.com/triasteran/Data-Science-For-Life-Science/blob/master/Statistics_and_Math_in_R/pictures/pval_adj.png" alt="drawing" width="600"/>
 
 ​	If m is large, the chances to get at least one error will be nearly 100%! That’s why we need to adjust the p-values for the number of hypothesis tests performed, or to control type I error rate.
 
