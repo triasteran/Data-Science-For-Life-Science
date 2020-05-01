@@ -14,7 +14,6 @@
 
 7. Find interquartile range using this vector. 
 
-
 8. Compute 20th percentile, upper and lower quartile of Poisson distribution with <img src="https://render.githubusercontent.com/render/math?math=\lambda"> = 14. 
 
 9. There are 20 multiple choice questions in a test. Each question has 5 possible answers and only one of them is correct. 
@@ -23,7 +22,6 @@
 * Find the probability of having 5 or less correct answers if a student attempts to answer every question at random.
 
 10. (this example does not reflect reality!) There are 5 transcription-factor binding sites (TF BSs) on average in a bin of length 2000nt.  Find the probability of having more than 15 TF BSs in a particular bin of the same length. 
-
 
 11. Generate 10 observations from t-distribution. 
 
@@ -50,16 +48,14 @@ sample <- c(-2.14, 7.21, -0.98, 2.14, 2.66, -2.48, -4.64, 3.08, -2.82, 5.84,
 df <- data.frame(sample = c(4.63, 3.72, 3.81, 5.22, 5.19, 4.86, 5.49, 2.46, 4.43, 3.87, 4.88, 3.2, 3.64, 2.79, 4.97, 5.77, 3.08, 4.04, 4.79, 5.74),
                 control = c(2.96, 3.07, 1.13, 3.76, 1.33, 3.06, 2.19, 1.32, 2.23, 0, 0.76, 2.52, 2.18, 1.9, 3.26, 1.26, 3.22, 1.5, 1.23, 2.13))
 ```
-
-
 * Plot the data, spot the difference between 2 groups if any
 
 * What kind of test should be applied here, paired or unpaired? 
 
-
 * What are hypotheses, one-sided or two-sided?
 
 * Check whether data distributed normally in order to choose between parametric and non-parametric test.
+
 * Test the equality of variances if needed. 
 
 
@@ -84,12 +80,13 @@ df <- data.frame(ABC = c(1.736, 3.408, 2.54, 1.501, 1.405, 2.057, 2.924, 3.147, 
 
 
 * Plot it 
+
 * Are data paired or not?
 
 * What are hypotheses, one-sided or two-sided?
 
-
 * Check normality of the data. 
+
 * Test the equality of variances if needed. 
 
 
@@ -141,14 +138,14 @@ head(df, 3)
 * Plot scatter plots and correlation plot
 
 * Build a simple model with one most promising predictor
+
 * Get a summary of the model and interpret it 
 
 * Incorporate into the model all genes at once
+
 * Play with different sets of predictors
+
 * Compare models 
-
-
-
 
 
 <b> Tricky question 1 </b>
@@ -160,7 +157,6 @@ head(df, 3)
 * use function <i>replicate</i> to repeat multiple t-tests - 1000 t-tests for 2 samples distributed normally with the same parameters
 * plot density of p-value distribution, guess by the form which distribution could it be (you can use base R functions here)
 * check if the probabilities follow a particular distribution with a QQ plot (qqplot)
-
 
 
 <b> Tricky question 2 </b>
