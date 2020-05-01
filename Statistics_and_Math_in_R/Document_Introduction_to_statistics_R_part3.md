@@ -53,7 +53,7 @@ df %>% gather(key, value, -death_rate) %>%
   theme(text = element_text(size=30))
 ```
 
-<img src="https://github.com/triasteran/Data-Science-For-Life-Science/blob/master/Statistics_and_Math_in_R/pictures/regres1.png" alt="drawing" width="600"/>
+<img src="https://github.com/triasteran/Data-Science-For-Life-Science/blob/master/Statistics_and_Math_in_R/pictures/regres1.png" alt="drawing" width="1200"/>
 
 ​	Let's start with the simple model with only one predictor (income).
 
