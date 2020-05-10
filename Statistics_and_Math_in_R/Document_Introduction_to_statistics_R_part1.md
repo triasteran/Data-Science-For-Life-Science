@@ -33,6 +33,7 @@ library(dplyr) # data frame manupulation
 library(tidyr) # data frame manupulation 
 library(psych) # descriptive statistics for data frame 
 library(Rmisc) # confidence interval
+library(car) # LeveneTest
 
 # if you want to suppress package sturtup messages:
 suppressPackageStartupMessages(library(ggplot2))
